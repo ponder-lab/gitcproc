@@ -41,17 +41,17 @@ class PatchMethod:
             dictStr= dictStr+","+ toStr(value)
 
         dictStr += "," + toStr(self.total_add) + "," + toStr(self.total_del) + "," + toStr(self.warning)
-    
+
         return dictStr
 
     #Get the Header string for inserting into a database.
     def getTitleString(self):
         dictStr= "(project, sha, language, file_name, is_test, method_name"
         for key, value in self.keywordDictionary.iteritems():
-            dictStr= dictStr+","+ str(key).replace(" ", "_").lower() #ToStr will add ' around the strings...
+            dictStr= dictStr+","+ str(key).replace(" ", "_").replace("(", "").replace(")", "").lower() #ToStr will add ' around the strings...
 
         dictStr += ",total_adds,total_dels,warning_alert)"
-    
+
         return dictStr
 
     def getFullTitleString(self):
@@ -63,10 +63,11 @@ class PatchMethod:
         dictStr = "(project character varying(500), sha text, language character varying(500)," + \
             " file_name text, is_test boolean, method_name text"
         for key, value in self.keywordDictionary.iteritems():
-            dictStr= dictStr+", "+ str(key).replace(" ", "_").lower() + "integer" #ToStr will add ' around the strings...
+            dictStr= dictStr+", "+ str(key).replace(" ", "_").replace("(", "").replace(")", "").lower() + \
+                "integer" #ToStr will add ' around the strings...
 
         dictStr += ", total_adds integer, total_dels integer, warning_alert boolean)"
-    
+
         return dictStr
 
     def dictToCsv(self):
