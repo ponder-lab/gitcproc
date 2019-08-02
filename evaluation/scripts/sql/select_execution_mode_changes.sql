@@ -1,1 +1,4 @@
-select * from method_change_detail where parallel_adds != parallel_dels OR sequential_adds != sequential_dels OR parallelstream_adds != parallelstream_dels
+select method_change_detail.project, method_change_detail.sha, method_change_detail.language, method_change_detail.file_name, method_change_detail.is_test, method_change_detail.method_name, method_change_detail.parallel_adds, method_change_detail.parallel_dels, method_change_detail.parallelstream_adds, method_change_detail.parallelstream_dels, method_change_detail.sequential_adds, method_change_detail.sequential_dels, method_change_detail.total_adds, method_change_detail.total_dels, method_change_detail.warning_alert, change_summary.is_bug
+from method_change_detail inner join change_summary on method_change_detail.sha = change_summary.sha
+where method_change_detail.parallel_adds > 0 OR method_change_detail.parallel_dels > 0 OR method_change_detail.sequential_adds > 0 OR method_change_detail.sequential_dels > 0 OR parallelstream_adds > 0 OR method_change_detail.parallelstream_dels > 0
+order by method_change_detail.project desc, method_change_detail.sha, file_name, method_name
