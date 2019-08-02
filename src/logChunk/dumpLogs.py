@@ -30,7 +30,7 @@ class dumpLogs:
         dictStr = "(project character varying(500), sha text, language character varying(500)," + \
             " file_name text, is_test boolean, method_name text"
         for key, value in keywordDictionary.iteritems():
-            dictStr= dictStr+", "+ str(key).replace(" ", "_").replace("(", "").replace(")", "").lower() + \
+            dictStr= dictStr+", "+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_").lower() + \
                 " integer" #ToStr will add ' around the strings...
 
         dictStr += ", total_adds integer, total_dels integer, warning_alert boolean)"
