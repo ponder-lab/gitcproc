@@ -1,1 +1,12 @@
-ponder-lab/Stream-Evolution-Test
+JacpFX/JacpFX
+RutledgePaulV/monads
+ThreeTen/threeten-extra
+criscris/koral
+deephacks/streamql
+eclipse/jetty.project
+edalorzo/jdk8-experiments
+iluwatar/java-design-patterns
+jOOQ/jOOQ
+luontola/retrolambda
+numenta/htm.java
+orfjackal/retrolambda
