@@ -8,7 +8,6 @@ jenkinsci/blueocean-plugin
 google/guava
 google/binnavi
 junit-team/junit5
-advantageous/qbit
 bootique/bootique
 aol/cyclops
 spring-projects/spring-framework
