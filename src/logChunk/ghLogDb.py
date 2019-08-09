@@ -466,8 +466,8 @@ class ghLogDb:
             lst = mockChunk.readKeywords(lst)
             keywords= [k[0] for k in lst if k[1] == INCLUDED]
             for keyword in keywords:
-                listToDict[str(keyword)+" Adds"]=0
-                listToDict[str(keyword)+" Dels"]=0
+                listToDict["\"" + str(keyword) + "\" adds"]=0
+                listToDict["\"" + str(keyword) + "\" dels"]=0
 
             inf2.write("project, sha, language, file_name, is_test, method_name,total_add,total_del,%s\n"%",".join(sorted(listToDict.keys())))
 

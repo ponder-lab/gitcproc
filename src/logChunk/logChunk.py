@@ -47,7 +47,7 @@ class logChunk:
     #Returns true if the string conforms to the pattern <keyword>,[included/excluded],[single,block]
     #and false otherwise
     def keywordValidityCheck(self, line):
-        toCheck = [w.strip().lower() for w in line]
+        toCheck = [w.strip() for w in line]
         if(len(toCheck) != 3):
             return False
         elif(toCheck[1] != INCLUDED and toCheck[1] != EXCLUDED):
@@ -66,13 +66,13 @@ class logChunk:
 
 
     #Read in a file with the following format:
-    #Keyword, Inc/Exc, Single/Block 
+    #Keyword, Inc/Exc, Single/Block
     #And store them as a list of triples
     def readKeywords(self, lst):
         with open(self.KeyWordFile) as f:
             reader = csv.reader(f, delimiter=',', quotechar="\'")
             for l in reader:
-                l = [w.lower() for w in l]
+                l = [w for w in l]
                 if(self.keywordValidityCheck(l)):
                     next = l
                     lst.append(next)
@@ -94,12 +94,12 @@ class logChunk:
         blockKeyWordList = filter(lambda w: w[2] == BLOCK, self.keyWordList)
         for keyword in singleKeyWordList:
             if(keyword[1] != EXCLUDED):
-                emptyDict[self.outputKeyword(keyword) + " Adds"]=0
-                emptyDict[self.outputKeyword(keyword) + " Dels"]=0
+                emptyDict[self.outputKeyword(keyword) + " adds"]=0
+                emptyDict[self.outputKeyword(keyword) + " dels"]=0
         for keyword in blockKeyWordList:
             if(keyword[1] != EXCLUDED):
-                emptyDict[self.outputKeyword(keyword) + " Adds"]=0
-                emptyDict[self.outputKeyword(keyword) + " Dels"]=0
+                emptyDict[self.outputKeyword(keyword) + " adds"]=0
+                emptyDict[self.outputKeyword(keyword) + " dels"]=0
 
         return emptyDict
 
@@ -207,19 +207,18 @@ class logChunk:
     #Remove any parts of the line that have structures marked as excluded
     def removeExcludedKeywords(self, line, keywords):
         excludedKeywords = [k for k in keywords if k[1] == EXCLUDED]
-        line = line.lower() #Make this case insensitive
         for eK in excludedKeywords:
             # print(eK)
             line = line.replace(eK[0], "")
         return line
-    
+
     #Determines if a line of text contains any keyword
     #Precondition - tested line has had all comments and strings removed.
     def containsKeyword(self, line, keywords):
         line = self.removeExcludedKeywords(line, keywords)
         includedKeywords = [k for k in keywords if k[1] == INCLUDED]
         for keyword in includedKeywords:
-            if(keyword in line.lower()):
+            if(keyword in line):
                 return True
 
         return False
@@ -243,9 +242,9 @@ class logChunk:
                 assert(False)
 
             if(lineType == ADD):
-                incrementDict(str(b) + " Adds", keywordDict, 1)
+                incrementDict(str(b) + " adds", keywordDict, 1)
             elif(lineType == REMOVE):
-                incrementDict(str(b) + " Dels", keywordDict, 1)
+                incrementDict(str(b) + " dels", keywordDict, 1)
 
         return keywordDict
 
@@ -257,7 +256,7 @@ class logChunk:
             exactMatch = "(^|\W+)" + keyword[1:-1] + "(\W+|$)"
             return (keyword[1:-1],re.search(exactMatch, line) != None)
         else:
-            return (keyword, keyword in line.lower())
+            return (keyword, keyword in line)
 
     #String, String, list of Strings, dictionary, String -> dictionary
     #Modify the keyword dictionary for this line.  
@@ -281,9 +280,9 @@ class logChunk:
                 if(matched):
                     tmp = tmp.replace(k, "") #Then remove so we don't double count
                     if(lineType == ADD):
-                        incrementDict(str(k) + " Adds", keywordDict, 1)
+                        incrementDict(str(k) + " adds", keywordDict, 1)
                     elif(lineType == REMOVE):
-                        incrementDict(str(k) + " Dels", keywordDict, 1)
+                        incrementDict(str(k) + " dels", keywordDict, 1)
                     else: #I don't this case has been handled correctly for blocks.
                         print("Unmodified")
                         assert(0)
@@ -697,15 +696,15 @@ class logChunk:
             backTrack = False
             for keyword in singleKeyWordList:
                 if(keyword[1] != EXCLUDED):
-                    keywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                    keywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
             for keyword in blockKeyWordList:
                 #Hack to make run with the 'tryDependedCatch' keyword
                 if(not isinstance(keyword, list) or len(keyword) != KEYLISTSIZE):
                     continue
                 elif(keyword[1] != EXCLUDED):
-                    keywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                    keywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
         return (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
 
@@ -948,20 +947,20 @@ class logChunk:
         #Initialize keywords (This is repeated three times -> make into a subfunction)
         for keyword in singleKeyWordList:
             if(keyword[1] != EXCLUDED):
-                keywordDictionary[self.outputKeyword(keyword)+ " Adds"]=0
-                keywordDictionary[self.outputKeyword(keyword)+ " Dels"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                keywordDictionary[self.outputKeyword(keyword)+ " adds"]=0
+                keywordDictionary[self.outputKeyword(keyword)+ " dels"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
         for keyword in blockKeyWordList:
             #Hack to make run with the 'tryDependentCatch' keyword
             if(not isinstance(keyword, list) or len(keyword) != KEYLISTSIZE):
                 continue
             elif(keyword[1] != EXCLUDED):
-                keywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                keywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
         #----------------------------------Initialization----------------------------------#
 
