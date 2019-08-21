@@ -19,10 +19,10 @@ WHERE  change_summary.is_bug
               OR "Collectors_dels" > 0 
               OR "DoubleStream_adds" > 0 
               OR "DoubleStream_dels" > 0 
-              OR "range_adds" > 0 
-              OR "range_dels" > 0 
-              OR "rangeClosed_adds" > 0 
-              OR "rangeClosed_dels" > 0 
+              OR "range__adds" > 0 
+              OR "range__dels" > 0 
+              OR "rangeClosed__adds" > 0 
+              OR "rangeClosed__dels" > 0 
               OR "IntStream_adds" > 0 
               OR "IntStream_dels" > 0 
               OR "LongStream_adds" > 0 
@@ -43,12 +43,12 @@ WHERE  change_summary.is_bug
               OR "StreamSupport_dels" > 0 
               OR "accumulator___adds" > 0 
               OR "accumulator___dels" > 0 
-              OR "allMatch_adds" > 0 
-              OR "allMatch_dels" > 0 
+              OR "allMatch__adds" > 0 
+              OR "allMatch__dels" > 0 
               OR "allProcesses___adds" > 0 
               OR "allProcesses___dels" > 0 
-              OR "anyMatch_adds" > 0 
-              OR "anyMatch_dels" > 0 
+              OR "anyMatch__adds" > 0 
+              OR "anyMatch__dels" > 0 
               OR "asDoubleStream___adds" > 0 
               OR "asDoubleStream___dels" > 0 
               OR "asIntStream___adds" > 0 
@@ -57,12 +57,12 @@ WHERE  change_summary.is_bug
               OR "asLongStream___dels" > 0 
               OR "average___adds" > 0 
               OR "average___dels" > 0 
-              OR "averagingDouble_adds" > 0 
-              OR "averagingDouble_dels" > 0 
-              OR "averagingInt_adds" > 0 
-              OR "averagingInt_dels" > 0 
-              OR "averagingLong_adds" > 0 
-              OR "averagingLong_dels" > 0 
+              OR "averagingDouble__adds" > 0 
+              OR "averagingDouble__dels" > 0 
+              OR "averagingInt__adds" > 0 
+              OR "averagingInt__dels" > 0 
+              OR "averagingLong__adds" > 0 
+              OR "averagingLong__dels" > 0 
               OR "boxed___adds" > 0 
               OR "boxed___dels" > 0 
               OR "build___adds" > 0 
@@ -79,138 +79,138 @@ WHERE  change_summary.is_bug
               OR "children___dels" > 0 
               OR "codePoints___adds" > 0 
               OR "codePoints___dels" > 0 
-              OR "collect_adds" > 0 
-              OR "collect_dels" > 0 
-              OR "collectingAndThen_adds" > 0 
-              OR "collectingAndThen_dels" > 0 
+              OR "collect__adds" > 0 
+              OR "collect__dels" > 0 
+              OR "collectingAndThen__adds" > 0 
+              OR "collectingAndThen__dels" > 0 
               OR "combiner___adds" > 0 
               OR "combiner___dels" > 0 
-              OR "concat_adds" > 0 
-              OR "concat_dels" > 0 
+              OR "concat__adds" > 0 
+              OR "concat__dels" > 0 
               OR "count___adds" > 0 
               OR "count___dels" > 0 
               OR "counting___adds" > 0 
               OR "counting___dels" > 0 
-              OR "datesUntil_adds" > 0 
-              OR "datesUntil_dels" > 0 
+              OR "datesUntil__adds" > 0 
+              OR "datesUntil__dels" > 0 
               OR "descendants___adds" > 0 
               OR "descendants___dels" > 0 
               OR "distinct___adds" > 0 
               OR "distinct___dels" > 0 
-              OR "doubleStream_adds" > 0 
-              OR "doubleStream_dels" > 0 
-              OR "doubles_adds" > 0 
-              OR "doubles_dels" > 0 
+              OR "doubleStream__adds" > 0 
+              OR "doubleStream__dels" > 0 
+              OR "doubles__adds" > 0 
+              OR "doubles__dels" > 0 
               OR "doubles___adds" > 0 
               OR "doubles___dels" > 0 
               OR "drivers___adds" > 0 
               OR "drivers___dels" > 0 
-              OR "dropWhile_adds" > 0 
-              OR "dropWhile_dels" > 0 
+              OR "dropWhile__adds" > 0 
+              OR "dropWhile__dels" > 0 
               OR "elementsAsStream___adds" > 0 
               OR "elementsAsStream___dels" > 0 
               OR "estimateSize___adds" > 0 
               OR "estimateSize___dels" > 0 
-              OR "filter_adds" > 0 
-              OR "filter_dels" > 0 
-              OR "filtering_adds" > 0 
-              OR "filtering_dels" > 0 
+              OR "filter__adds" > 0 
+              OR "filter__dels" > 0 
+              OR "filtering__adds" > 0 
+              OR "filtering__dels" > 0 
               OR "findAny___adds" > 0 
               OR "findAny___dels" > 0 
               OR "findFirst___adds" > 0 
               OR "findFirst___dels" > 0 
               OR "finisher___adds" > 0 
               OR "finisher___dels" > 0 
-              OR "flatMap_adds" > 0 
-              OR "flatMap_dels" > 0 
-              OR "flatMapToDouble_adds" > 0 
-              OR "flatMapToDouble_dels" > 0 
-              OR "flatMapToInt_adds" > 0 
-              OR "flatMapToInt_dels" > 0 
-              OR "flatMapping_adds" > 0 
-              OR "flatMapping_dels" > 0 
-              OR "forEach_adds" > 0 
-              OR "forEach_dels" > 0 
-              OR "forEachOrdered_adds" > 0 
-              OR "forEachOrdered_dels" > 0 
-              OR "forEachRemaining_adds" > 0 
-              OR "forEachRemaining_dels" > 0 
-              OR "generate_adds" > 0 
-              OR "generate_dels" > 0 
+              OR "flatMap__adds" > 0 
+              OR "flatMap__dels" > 0 
+              OR "flatMapToDouble__adds" > 0 
+              OR "flatMapToDouble__dels" > 0 
+              OR "flatMapToInt__adds" > 0 
+              OR "flatMapToInt__dels" > 0 
+              OR "flatMapping__adds" > 0 
+              OR "flatMapping__dels" > 0 
+              OR "forEach__adds" > 0 
+              OR "forEach__dels" > 0 
+              OR "forEachOrdered__adds" > 0 
+              OR "forEachOrdered__dels" > 0 
+              OR "forEachRemaining__adds" > 0 
+              OR "forEachRemaining__dels" > 0 
+              OR "generate__adds" > 0 
+              OR "generate__dels" > 0 
               OR "getComparator___adds" > 0 
               OR "getComparator___dels" > 0 
               OR "getExactSizeIfKnown___adds" > 0 
               OR "getExactSizeIfKnown___dels" > 0 
-              OR "groupingBy_adds" > 0 
-              OR "groupingBy_dels" > 0 
-              OR "groupingByConcurrent_adds" > 0 
-              OR "groupingByConcurrent_dels" > 0 
-              OR "hasCharacteristics_adds" > 0 
-              OR "hasCharacteristics_dels" > 0 
+              OR "groupingBy__adds" > 0 
+              OR "groupingBy__dels" > 0 
+              OR "groupingByConcurrent__adds" > 0 
+              OR "groupingByConcurrent__dels" > 0 
+              OR "hasCharacteristics__adds" > 0 
+              OR "hasCharacteristics__dels" > 0 
               OR "inetAddresses___adds" > 0 
               OR "inetAddresses___dels" > 0 
-              OR "intStream_adds" > 0 
-              OR "intStream_dels" > 0 
+              OR "intStream__adds" > 0 
+              OR "intStream__dels" > 0 
               OR "ints___adds" > 0 
               OR "ints___dels" > 0 
               OR "isParallel___adds" > 0 
               OR "isParallel___dels" > 0 
               OR "joining___adds" > 0 
               OR "joining___dels" > 0 
-              OR "limit_adds" > 0 
-              OR "limit_dels" > 0 
+              OR "limit__adds" > 0 
+              OR "limit__dels" > 0 
               OR "lines___adds" > 0 
               OR "lines___dels" > 0 
-              OR "longStream_adds" > 0 
-              OR "longStream_dels" > 0 
-              OR "longs_adds" > 0 
-              OR "longs_dels" > 0 
+              OR "longStream__adds" > 0 
+              OR "longStream__dels" > 0 
+              OR "longs__adds" > 0 
+              OR "longs__dels" > 0 
               OR "longs___adds" > 0 
               OR "longs___dels" > 0 
-              OR "map_adds" > 0 
-              OR "map_dels" > 0 
-              OR "mapToInt_adds" > 0 
-              OR "mapToInt_dels" > 0 
-              OR "mapToLong_adds" > 0 
-              OR "mapToLong_dels" > 0 
-              OR "mapToObj_adds" > 0 
-              OR "mapToObj_dels" > 0 
-              OR "mapping_adds" > 0 
-              OR "mapping_dels" > 0 
+              OR "map__adds" > 0 
+              OR "map__dels" > 0 
+              OR "mapToInt__adds" > 0 
+              OR "mapToInt__dels" > 0 
+              OR "mapToLong__adds" > 0 
+              OR "mapToLong__dels" > 0 
+              OR "mapToObj__adds" > 0 
+              OR "mapToObj__dels" > 0 
+              OR "mapping__adds" > 0 
+              OR "mapping__dels" > 0 
               OR "max___adds" > 0 
               OR "max___dels" > 0 
-              OR "maxBy_adds" > 0 
-              OR "maxBy_dels" > 0 
+              OR "maxBy__adds" > 0 
+              OR "maxBy__dels" > 0 
               OR "min___adds" > 0 
               OR "min___dels" > 0 
-              OR "minBy_adds" > 0 
-              OR "minBy_dels" > 0 
+              OR "minBy__adds" > 0 
+              OR "minBy__dels" > 0 
               OR "networkInterfaces___adds" > 0 
               OR "networkInterfaces___dels" > 0 
-              OR "noneMatch_adds" > 0 
-              OR "noneMatch_dels" > 0 
+              OR "noneMatch__adds" > 0 
+              OR "noneMatch__dels" > 0 
               OR "parallel___adds" > 0 
               OR "parallel___dels" > 0 
               OR "parallelStream___adds" > 0 
               OR "parallelStream___dels" > 0 
-              OR "partitioningBy_adds" > 0 
-              OR "partitioningBy_dels" > 0 
-              OR "peek_adds" > 0 
-              OR "peek_dels" > 0 
-              OR "reduce_adds" > 0 
-              OR "reduce_dels" > 0 
-              OR "reducing_adds" > 0 
-              OR "reducing_dels" > 0 
+              OR "partitioningBy__adds" > 0 
+              OR "partitioningBy__dels" > 0 
+              OR "peek__adds" > 0 
+              OR "peek__dels" > 0 
+              OR "reduce__adds" > 0 
+              OR "reduce__dels" > 0 
+              OR "reducing__adds" > 0 
+              OR "reducing__dels" > 0 
               OR "results___adds" > 0 
               OR "results___dels" > 0 
               OR "sequential___adds" > 0 
               OR "sequential___dels" > 0 
-              OR "skip_adds" > 0 
-              OR "skip_dels" > 0 
+              OR "skip__adds" > 0 
+              OR "skip__dels" > 0 
               OR "sorted___adds" > 0 
               OR "sorted___dels" > 0 
-              OR "splitAsStream_adds" > 0 
-              OR "splitAsStream_dels" > 0 
+              OR "splitAsStream__adds" > 0 
+              OR "splitAsStream__dels" > 0 
               OR "spliterator___adds" > 0 
               OR "spliterator___dels" > 0 
               OR "stream___adds" > 0 
@@ -219,46 +219,46 @@ WHERE  change_summary.is_bug
               OR "subInterfaces___dels" > 0 
               OR "sum___adds" > 0 
               OR "sum___dels" > 0 
-              OR "summarizingDouble_adds" > 0 
-              OR "summarizingDouble_dels" > 0 
-              OR "summarizingInt_adds" > 0 
-              OR "summarizingInt_dels" > 0 
-              OR "summarizingLong_adds" > 0 
-              OR "summarizingLong_dels" > 0 
+              OR "summarizingDouble__adds" > 0 
+              OR "summarizingDouble__dels" > 0 
+              OR "summarizingInt__adds" > 0 
+              OR "summarizingInt__dels" > 0 
+              OR "summarizingLong__adds" > 0 
+              OR "summarizingLong__dels" > 0 
               OR "summaryStatistics___adds" > 0 
               OR "summaryStatistics___dels" > 0 
-              OR "summingDouble_adds" > 0 
-              OR "summingDouble_dels" > 0 
-              OR "summingInt_adds" > 0 
-              OR "summingInt_dels" > 0 
-              OR "summingLong_adds" > 0 
-              OR "summingLong_dels" > 0 
+              OR "summingDouble__adds" > 0 
+              OR "summingDouble__dels" > 0 
+              OR "summingInt__adds" > 0 
+              OR "summingInt__dels" > 0 
+              OR "summingLong__adds" > 0 
+              OR "summingLong__dels" > 0 
               OR "supplier___adds" > 0 
               OR "supplier___dels" > 0 
-              OR "takeWhile_adds" > 0 
-              OR "takeWhile_dels" > 0 
+              OR "takeWhile__adds" > 0 
+              OR "takeWhile__dels" > 0 
               OR "toArray___adds" > 0 
               OR "toArray___dels" > 0 
-              OR "toCollection_adds" > 0 
-              OR "toCollection_dels" > 0 
-              OR "toConcurrentMap_adds" > 0 
-              OR "toConcurrentMap_dels" > 0 
+              OR "toCollection__adds" > 0 
+              OR "toCollection__dels" > 0 
+              OR "toConcurrentMap__adds" > 0 
+              OR "toConcurrentMap__dels" > 0 
               OR "toList___adds" > 0 
               OR "toList___dels" > 0 
-              OR "toMap_adds" > 0 
-              OR "toMap_dels" > 0 
+              OR "toMap__adds" > 0 
+              OR "toMap__dels" > 0 
               OR "toSet___adds" > 0 
               OR "toSet___dels" > 0 
               OR "toUnmodifiableList___adds" > 0 
               OR "toUnmodifiableList___dels" > 0 
-              OR "toUnmodifiableMap_adds" > 0 
-              OR "toUnmodifiableMap_dels" > 0 
+              OR "toUnmodifiableMap__adds" > 0 
+              OR "toUnmodifiableMap__dels" > 0 
               OR "toUnmodifiableSet___adds" > 0 
               OR "toUnmodifiableSet___dels" > 0 
               OR "tokens___adds" > 0 
               OR "tokens___dels" > 0 
-              OR "tryAdvance_adds" > 0 
-              OR "tryAdvance_dels" > 0 
+              OR "tryAdvance__adds" > 0 
+              OR "tryAdvance__dels" > 0 
               OR "trySplit___adds" > 0 
               OR "trySplit___dels" > 0 
               OR "unordered___adds" > 0 
