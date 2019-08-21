@@ -254,7 +254,8 @@ class logChunk:
     def keywordMatch(self, keyword, line):
         if(keyword.startswith('\"') and keyword.endswith('\"')):
             slicedKeyword = keyword[1:-1]
-            exactMatch = "(^|\W+)" + re.escape(slicedKeyword) + "(\W+|$)"
+            escapedKeyword = re.escape(slicedKeyword)
+            exactMatch = "(^|\W*)" + escapedKeyword + "(\W*|$)"
             return (slicedKeyword,re.search(exactMatch, line) != None)
         else:
             return (keyword, keyword in line)
