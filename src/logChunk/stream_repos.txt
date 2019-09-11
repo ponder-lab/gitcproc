@@ -10,4 +10,3 @@ Sable/soot
 spotbugs/spotbugs
 spring-projects/spring-data-jdbc
 spring-projects/spring-framework
-stanfordnlp/CoreNLP
