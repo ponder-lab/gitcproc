@@ -1,12 +1,1 @@
-aol/cyclops
-apache/cassandra
-eclipse/eclipse-collections
-elastic/elasticsearch
-JabRef/jabref
-junit-team/junit5
-Netflix/hollow
-oracle/opengrok
-Sable/soot
-spotbugs/spotbugs
-spring-projects/spring-data-jdbc
-spring-projects/spring-framework
+stanfordnlp/CoreNLP
