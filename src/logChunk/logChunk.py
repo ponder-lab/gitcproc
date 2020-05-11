@@ -96,12 +96,12 @@ class logChunk:
             if(keyword[1] != EXCLUDED):
                 emptyDict[self.outputKeyword(keyword) + " adds"]=0
                 emptyDict[self.outputKeyword(keyword) + " dels"]=0
-		emptyDict[self.outputKeyword(keyword) + " ctxt"]=0
+                emptyDict[self.outputKeyword(keyword) + " ctxt"]=0
         for keyword in blockKeyWordList:
             if(keyword[1] != EXCLUDED):
                 emptyDict[self.outputKeyword(keyword) + " adds"]=0
                 emptyDict[self.outputKeyword(keyword) + " dels"]=0
-		emptyDict[self.outputKeyword(keyword) + " ctxt"]=0
+                emptyDict[self.outputKeyword(keyword) + " ctxt"]=0
 
         return emptyDict
 
@@ -960,7 +960,7 @@ class logChunk:
                 keywordDictionary[self.outputKeyword(keyword)+ " ctxt"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
-		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
 
         for keyword in blockKeyWordList:
             #Hack to make run with the 'tryDependentCatch' keyword
@@ -969,10 +969,10 @@ class logChunk:
             elif(keyword[1] != EXCLUDED):
                 keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                 keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
-		keywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
+                keywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
-		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
 
         #----------------------------------Initialization----------------------------------#
 
