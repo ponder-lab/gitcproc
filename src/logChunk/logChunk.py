@@ -247,6 +247,8 @@ class logChunk:
                 incrementDict(str(b) + " adds", keywordDict, 1)
             elif(lineType == REMOVE):
                 incrementDict(str(b) + " dels", keywordDict, 1)
+            elif(lineType == CTXT):
+                incrementDict(str(b) + " ctxt", keywordDict, 1)
 
         return keywordDict
 
@@ -287,6 +289,8 @@ class logChunk:
                         incrementDict(str(k) + " adds", keywordDict, 1)
                     elif(lineType == REMOVE):
                         incrementDict(str(k) + " dels", keywordDict, 1)
+                    elif(lineType == CTXT):
+                        incrementDict(str(k) + " ctxt", keywordDict, 1)
                     else: #I don't this case has been handled correctly for blocks.
                         print("Unmodified")
                         assert(0)
@@ -932,7 +936,7 @@ class logChunk:
 
         self.initialized = True
         lineNum = 0 # which line we are on, relative to the start of the chunk
-        lineType = OTHER
+        lineType = OTHER # lineType declared here.
         phase = LOOKFORNAME #TODO: Replace the phases with scopeTracker?
         commentFlag = False #Are we inside a comment?
         commentType = OTHER #Is the original line of the comment ADD, REMOVE, or OTHER
