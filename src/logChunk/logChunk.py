@@ -96,14 +96,12 @@ class logChunk:
             if(keyword[1] != EXCLUDED):
                 emptyDict[self.outputKeyword(keyword) + " adds"]=0
                 emptyDict[self.outputKeyword(keyword) + " dels"]=0
-		emptyDict[self.outputKeyword(keyword) + " ctxt adds"]=0
-		emptyDict[self.outputKeyword(keyword) + " ctxt dels"]=0
+		emptyDict[self.outputKeyword(keyword) + " ctxt"]=0
         for keyword in blockKeyWordList:
             if(keyword[1] != EXCLUDED):
                 emptyDict[self.outputKeyword(keyword) + " adds"]=0
                 emptyDict[self.outputKeyword(keyword) + " dels"]=0
-		emptyDict[self.outputKeyword(keyword) + " ctxt adds"]=0
-		emptyDict[self.outputKeyword(keyword) + " ctxt dels"]=0
+		emptyDict[self.outputKeyword(keyword) + " ctxt"]=0
 
         return emptyDict
 
@@ -230,27 +228,6 @@ class logChunk:
     #dictionary, list of tuples, list of strings -> dictionary
     #Update the add/delete for all open block contexts
     def incrementBlockContext(self, keywordDict, lineType, includedKeywords, blockContext):
-	#####add context here
-	for b in set(blockContext): #We can be inside nested if's, but we only wish to count each type once.
-            found = False
-            for keyword in includedKeywords:
-                tmp = keyword[0]
-                if(tmp.startswith('\"') and tmp.endswith('\"')):
-                    tmp = tmp[1:-1]
-                if(b == tmp):
-                    assert(keyword[1] == INCLUDED and keyword[2] == BLOCK)
-                    found = True
-                    break
-
-            if(not found):
-                print("Invalid block keyword.")
-                assert(False)
-
-            if(lineType == ADD):
-                incrementDict(str(b) + "ctxt adds", keywordDict, 1)
-            elif(lineType == REMOVE):
-                incrementDict(str(b) + "ctxt dels", keywordDict, 1)
-
         for b in set(blockContext): #We can be inside nested if's, but we only wish to count each type once.
             found = False
             for keyword in includedKeywords:
@@ -976,12 +953,10 @@ class logChunk:
             if(keyword[1] != EXCLUDED):
                 keywordDictionary[self.outputKeyword(keyword)+ " adds"]=0
                 keywordDictionary[self.outputKeyword(keyword)+ " dels"]=0
-                keywordDictionary[self.outputKeyword(keyword)+ " ctxt adds"]=0
-                keywordDictionary[self.outputKeyword(keyword)+ " ctxt dels"]=0
+                keywordDictionary[self.outputKeyword(keyword)+ " ctxt"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
-		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt adds"]=0
-		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt dels"]=0
+		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
 
         for keyword in blockKeyWordList:
             #Hack to make run with the 'tryDependentCatch' keyword
@@ -989,13 +964,11 @@ class logChunk:
                 continue
             elif(keyword[1] != EXCLUDED):
                 keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
-		keywordDictionary[self.outputKeyword(keyword) + " ctxt adds"]=0
                 keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
-		keywordDictionary[self.outputKeyword(keyword) + " ctxt dels"]=0
+		keywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
-		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt adds"]=0
                 outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
-		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt dels"]=0
+		outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " ctxt"]=0
 
         #----------------------------------Initialization----------------------------------#
 
