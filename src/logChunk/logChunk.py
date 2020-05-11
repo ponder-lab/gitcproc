@@ -564,13 +564,13 @@ class logChunk:
             return [ADD, line[1:]]
         elif(line.startswith("-")):
             return [REMOVE, line[1:]]
-        else:
-            if(len(line) > 0 and line[0] == " "):
-                return [OTHER, line[1:]] #Remove whitespace from +/- row, important for languages like python
-            elif(len(line) > 0 and (line[0] == "/" or line[0] == "\\")):
+        else: # this needs modification.
+            # if(len(line) > 0 and line[0] == " "):
+               # return [OTHER, line[1:]] #Remove whitespace from +/- row, important for languages like python
+            if(len(line) > 0 and (line[0] == "/" or line[0] == "\\")):
                 return [META, line]
             else:
-                return [OTHER, line]
+                return [CTXT, line]
 
     #A Check to see if our regexes match class name
     def checkForClassName(self, searchString, classContext):
