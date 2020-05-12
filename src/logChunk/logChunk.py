@@ -496,7 +496,7 @@ class logChunk:
                     fChange = COMDEL
                 else:
                     fChange = TOTALDEL
-            if(lineType == OTHER): #If the line is unmodified
+            if(lineType == CTXT): #If the line is unmodified
                 if(commentType == ADD): #This line has been commented out, with no corresponding block
                     lineType = REMOVE
                 elif(commentType == REMOVE): #This line was commented out, but is now part of code again.
@@ -699,7 +699,7 @@ class logChunk:
             ftotal_add = 0
             ftotal_del = 0
             phase = LOOKFORNAME
-            lineType=OTHER
+            lineType=CTXT
             foundBlock=None
             backTrack = False
             for keyword in singleKeyWordList:
@@ -808,7 +808,7 @@ class logChunk:
                                 blockKeywordType = lineType
                                 blockKeywordLine = lineNum
 
-                        if(lineType != OTHER):
+                        if(lineType != CTXT):
                             #Search for single line keywords BEFORE the scope decrease if in non decrease first language.
                             if(not sT.changeScopeFirst()):
                                 keywordDictionary = self.parseLineForKeywords(sT.beforeDecrease(line), lineType, singleKeyWordList, keywordDictionary)
@@ -816,7 +816,7 @@ class logChunk:
                                 keywordDictionary = self.parseLineForKeywords(line, lineType, singleKeyWordList, keywordDictionary)
 
 
-                        if(sT.getBlockContext(lineType) != [] and lineType!=OTHER):
+                        if(sT.getBlockContext(lineType) != [] and lineType!=CTXT):
                             if(self.config_info.DEBUG):
                                 print("Current block context: " + str(sT.getBlockContext(lineType)))
                             keywordDictionary = self.parseLineForKeywords(line, lineType, blockKeyWordList, keywordDictionary, sT.getBlockContext(lineType))
@@ -865,11 +865,11 @@ class logChunk:
                             return (foundBlock, blockKeywordLine, blockKeywordType, shortFunctionName, keywordDictionary, sT, True)
 
 
-                        if(lineType != OTHER):
+                        if(lineType != CTXT):
                             #Search for single line keywords BEFORE the scope decrease if in non decrease first language.
                             keywordDictionary = self.parseLineForKeywords(sT.beforeDecrease(line), lineType, singleKeyWordList, keywordDictionary)
 
-                        if(sT.getBlockContext(lineType) != [] and lineType!=OTHER):
+                        if(sT.getBlockContext(lineType) != [] and lineType!=CTXT):
                             if(self.config_info.DEBUG):
                                 print("Current block context: " + str(sT.getBlockContext(lineType)))
                             keywordDictionary = self.parseLineForKeywords(line, lineType, blockKeyWordList, keywordDictionary, sT.getBlockContext(lineType))
@@ -888,7 +888,7 @@ class logChunk:
 
 
         #Problem is figuring out when this is appropriate to call...
-        if(lineType != OTHER):
+        if(lineType != CTXT):
             temp = line
             if(scopeChanges != [DECREASE] and scopeChanges != [INCREASE, DECREASE] and scopeChanges != [scopeTracker.S_SIMUL]):
                 keywordDictionary = self.parseLineForKeywords(temp, lineType, singleKeyWordList, keywordDictionary)
@@ -936,10 +936,10 @@ class logChunk:
 
         self.initialized = True
         lineNum = 0 # which line we are on, relative to the start of the chunk
-        lineType = OTHER # lineType declared here.
+        lineType = CTXT # lineType declared here.
         phase = LOOKFORNAME #TODO: Replace the phases with scopeTracker?
         commentFlag = False #Are we inside a comment?
-        commentType = OTHER #Is the original line of the comment ADD, REMOVE, or OTHER
+        commentType = CTXT #Is the original line of the comment ADD, REMOVE, or OTHER
         functionName = ""
         shortFunctionName = ""
         funcStart = 0
