@@ -550,7 +550,7 @@ class logChunk:
                 if(startFlag==0):
                     ftotal_del += 1
         else:
-            assert(lineType==CTXT)
+            assert(lineType==OTHER)
 
         return (ftotal_add, ftotal_del)
 
