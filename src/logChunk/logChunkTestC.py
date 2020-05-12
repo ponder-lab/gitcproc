@@ -27,15 +27,15 @@ class logChunktest(unittest.TestCase):
             print(func.end)
             print(func.total_add)
             print(func.total_del)
-            print(func.keywordDictionary)           
+            print(func.keywordDictionary)
         print("===========================================")
 
 
     def setUp(self):
         self.keyword1 = ["wtc/Assertions.h","excluded","single"]
         self.keyword2 = ["ut_ad","included","single"]
-        self.keyword3 = ["try","Included","BLOCK"]
-        self.keyword4 = ["for","excludeD","block"]
+        self.keyword3 = ["try","included","block"]
+        self.keyword4 = ["for","excluded","block"]
         self.keyword5 = ["ut_ad included single"]
         self.keyword6 = ["printf(format","str)","included","single"]
         self.keyword7 = ["printf(format, str)","included","single"]
@@ -101,7 +101,7 @@ class logChunktest(unittest.TestCase):
         #self.chunk18 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk18.txt")) #Nope
         #self.chunk19 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk19.txt")) #Nope
         #self.chunk20 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk20.txt")) #Nope
-        self.chunk21 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk21.txt"), "C++",c_info) #Check C++ 
+        self.chunk21 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk21.txt"), "C++",c_info) #Check C++
         self.chunk22 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk22.txt"), "C++",c_info) #Check C++
         self.chunk23 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk23.txt"), "C++",c_info) #Check C++
         self.chunk24 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk24.txt"), "C++",c_info) #Check C++
@@ -125,7 +125,7 @@ class logChunktest(unittest.TestCase):
         self.chunk42 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk42.txt"), "C++",c_info) # C++
         self.chunk43 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk43.txt"), "C",c_info) #Check C
         self.chunk44 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk44.txt"), "C++",c_info) # C++
-        self.chunk45 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk45.txt"), "C++",c_info) # C++ 
+        self.chunk45 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk45.txt"), "C++",c_info) # C++
         self.chunk46 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk46.txt"), "C++",c_info) # C++
         self.chunk47 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk47.txt"), "C++",c_info) # C++
         self.chunk48 = logChunk.logChunk(self.readHelper("testfiles/Single/testChunk48.txt"), "C++",c_info) # C++
@@ -313,12 +313,12 @@ class logChunktest(unittest.TestCase):
         self.chunk1.parseText()
         funcList = self.chunk1.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 4) 
+        self.assertTrue(len(funcList) == 4)
         self.assertTrue(funcList[0].method=="NdbBlob::getBlobEventName")
         self.assertTrue(funcList[0].total_add == 10)
         self.assertTrue(funcList[0].total_del == 0)
 
-        testDict = {'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = {'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
 
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
@@ -327,7 +327,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[1].end==22)
         self.assertTrue(funcList[1].total_add == 4)
         self.assertTrue(funcList[1].total_del == 0)
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
 
@@ -336,7 +336,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[2].end==60)
         self.assertTrue(funcList[2].total_add == 35)
         self.assertTrue(funcList[2].total_del == 0)
-        testDict = {'assert Adds':2, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':2, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[2].keywordDictionary)
 
         self.assertTrue(funcList[3].method==NON_FUNC)
@@ -353,7 +353,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].total_add == 0)
         self.assertTrue(funcList[0].total_del == 15)
 
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 1, 'ut_a Adds':0, 'ut_a Dels': 1}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 1, 'ut_a adds':0, 'ut_a dels': 1}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method==NON_FUNC)
@@ -372,7 +372,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].total_add == 1)
         self.assertTrue(funcList[0].total_del == 0)
 
-        testDict = {'assert Adds':1, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':1, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method=="safely_trapped_errors")
@@ -382,7 +382,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[1].total_add == 16)
         self.assertTrue(funcList[1].total_del == 0)
 
-        testDict = {'assert Adds':1, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
 
@@ -392,7 +392,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[2].total_add == 11)
         self.assertTrue(funcList[2].total_del == 0)
 
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[2].keywordDictionary)
 
 
@@ -409,7 +409,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].end == 10)
         self.assertTrue(funcList[0].total_add == 3)
         self.assertTrue(funcList[0].total_del == 0)
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
 
@@ -418,7 +418,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[1].end == 14)
         self.assertTrue(funcList[1].total_add == 3)
         self.assertTrue(funcList[1].total_del == 0)
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
 
@@ -427,7 +427,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[2].end == 19)
         self.assertTrue(funcList[2].total_add == 4)
         self.assertTrue(funcList[2].total_del == 0)
-        testDict = {'assert Adds':1, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':1, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[2].keywordDictionary)
 
         self.assertTrue(funcList[3].method ==  NON_FUNC)
@@ -450,7 +450,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].end == 77)
         self.assertTrue(funcList[0].total_add == 16)
         self.assertTrue(funcList[0].total_del == 0)
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method ==  "StackHelper")
@@ -458,7 +458,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[1].end == 113)
         self.assertTrue(funcList[1].total_add == 1)
         self.assertTrue(funcList[1].total_del == 0)
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[2].method ==  "~StackHelper")
@@ -466,13 +466,13 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[2].end == 117)
         self.assertTrue(funcList[2].total_add == 4)
         self.assertTrue(funcList[2].total_del == 0)
-        testDict = {'assert Adds':0, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[2].keywordDictionary)
 
         self.assertTrue(funcList[3].method ==  NON_FUNC)
         self.assertTrue(funcList[3].start == 0)
         self.assertTrue(funcList[3].end == 0)
-        testDict = {'assert Adds':32, 'assert Dels': 0, 'ut_ad Adds':0, 'ut_ad Dels': 0, 'ut_a Adds':0, 'ut_a Dels': 0}
+        testDict = {'assert adds':0, 'assert dels': 0, 'ut_ad adds':0, 'ut_ad dels': 0, 'ut_a adds':0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[3].keywordDictionary)
 
     def test_parseText_Single9(self):
@@ -488,7 +488,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[6].end == 121)
         self.assertTrue(funcList[6].total_add == 3)
         self.assertTrue(funcList[6].total_del == 0)
-        testDict = { 'ut_ad Adds': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Dels': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert dels': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[6].keywordDictionary)
 
     def test_parseText_Single10(self):
@@ -502,7 +502,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[3].end == 246)
         self.assertTrue(funcList[3].total_add == 44)
         self.assertTrue(funcList[3].total_del == 0)
-        testDict = { 'ut_ad Adds': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Dels': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert dels': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[3].keywordDictionary)
 
         self.assertTrue(funcList[6].method ==  NON_FUNC)
@@ -518,7 +518,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[4].end == 199)
         self.assertTrue(funcList[4].total_add == 118)
         self.assertTrue(funcList[4].total_del == 0)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 1, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[4].keywordDictionary)
 
         self.assertTrue(funcList[5].method ==  NON_FUNC)
@@ -535,7 +535,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[1].end == 184)
         self.assertTrue(funcList[1].total_add == 12)
         self.assertTrue(funcList[1].total_del == 0)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[3].method ==  NON_FUNC)
@@ -572,7 +572,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].start == 8)
         self.assertTrue(funcList[0].end == 241)
 
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 15, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 14, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method ==  NON_FUNC)
@@ -602,23 +602,23 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(len(funcList) == 7) #Can't get the last one b/c constructor out of context
         self.assertTrue(funcList[0].method ==  "MDL_map::init")
         self.assertTrue(funcList[1].method ==  "MDL_map::destroy")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[2].method ==  "MDL_map::find_or_insert")
         self.assertTrue(funcList[3].method ==  "MDL_map::find")
         self.assertTrue(funcList[4].method ==  "MDL_map::move_from_hash_to_lock_mutex")
 
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 2, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 2, 'ut_a dels': 0}
         self.assertTrue(testDict,funcList[4].keywordDictionary)
         self.assertTrue(funcList[5].method ==  "MDL_map::remove")
 
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 1, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[5].keywordDictionary)
 
         self.assertTrue(funcList[6].method ==  NON_FUNC)
 
-   
+
     def test_parseText_Single23(self):
         self.chunk23.parseText()
         funcList = self.chunk23.functions
@@ -626,10 +626,10 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(len(funcList) == 3)
 
         self.assertTrue(funcList[0].method ==  "MDL_ticket::has_pending_conflicting_lock_impl")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 2, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 1, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
         self.assertTrue(funcList[1].method ==  "MDL_ticket::has_pending_conflicting_lock") #Name not in + or -
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
         self.assertTrue(funcList[2].method ==  NON_FUNC)
 
@@ -640,7 +640,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(len(funcList) == 25)
 
         self.assertTrue(funcList[16].method ==  "*get_date_time_format_str")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[16].keywordDictionary)
 
     def test_parseText_Single25(self):
@@ -650,7 +650,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(len(funcList) == 5)
 
         self.assertTrue(funcList[2].method ==  "row_upd_index_replace_new_col_vals_index_pos")
-        testDict = { 'ut_ad Adds': 1, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 1, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[2].keywordDictionary)
 
 
@@ -667,38 +667,38 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(len(funcList) == 16)
 
         self.assertTrue(funcList[0].method == "idxof")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method == "idxof")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[7].method == "*sfmt_get_idstring")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[7].keywordDictionary)
 
         self.assertTrue(funcList[11].method ==  "sfmt_fill_array32")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 3, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 3, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[11].keywordDictionary)
 
         self.assertTrue(funcList[12].method ==  "sfmt_fill_array64")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 3, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 3, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[12].keywordDictionary)
 
 
     def test_parseText_Single31(self):
-        self.chunk31.parseText() 
+        self.chunk31.parseText()
         funcList = self.chunk31.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
 
         self.assertTrue(funcList[0].method ==  "smp_callin")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 1, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method ==  NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 1, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
     def test_parseText_Single32(self):
@@ -708,16 +708,16 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(len(funcList) == 11)
 
         self.assertTrue(funcList[1].method ==  "h264_er_decode_mb")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 1, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
 
         self.assertTrue(funcList[7].method ==  "alloc_picture")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 2, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 2, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[7].keywordDictionary)
 
         self.assertTrue(funcList[10].method ==  NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[10].keywordDictionary)
 
 
@@ -738,23 +738,23 @@ class logChunktest(unittest.TestCase):
         self.debugFunctions(funcList)
 
         self.assertTrue(funcList[-1].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[-1].keywordDictionary)
 
 
     def test_parseText_Single36(self):
-        self.chunk36.parseText() 
+        self.chunk36.parseText()
         funcList = self.chunk36.functions
         #self.debugFunctions(funcList)
 
         self.assertTrue(len(funcList) == 3) # 2 + 1 Mock
 
         self.assertTrue(funcList[1].method ==  "Patch")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 5, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[2].method ==  NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict,funcList[2].keywordDictionary)
 
     def test_parseText_Single37(self):
@@ -766,7 +766,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].method ==  "NamespaceDetails::_alloc")
         self.assertTrue(funcList[0].total_add == 6)
         self.assertTrue(funcList[0].total_del == 3)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 1, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
     def test_parseText_Single38(self):
@@ -783,7 +783,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[2].method ==  "mysql_stmt_close")
         self.assertTrue(funcList[2].total_add == 3)
         self.assertTrue(funcList[2].total_del == 3)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[2].keywordDictionary)
 
     def test_parseText_Single40(self):
@@ -794,7 +794,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].method == "jl_unbox_##j_type")
         self.assertTrue(funcList[0].total_add == 2)
         self.assertTrue(funcList[0].total_del == 2)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 2, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 2, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 2, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 2, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
     def test_parseText_Single41(self):
@@ -805,7 +805,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].method == "Mutex")
         self.assertTrue(funcList[4].method == "Mutex")
         self.assertTrue(funcList[9].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[9].keywordDictionary)
 
     def test_parseText_Single42(self):
@@ -814,10 +814,10 @@ class logChunktest(unittest.TestCase):
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method == "Benchmark<P_parameter>::saveMatlabGraph")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 1, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
         self.assertTrue(funcList[1].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[1].keywordDictionary)
 
     def test_parseText_Single43(self):
@@ -826,10 +826,10 @@ class logChunktest(unittest.TestCase):
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method == "incr_flush_list_size_in_bytes")
-        testDict = { 'ut_ad Adds': 2, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 2, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
         self.assertTrue(funcList[1].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[1].keywordDictionary)
 
     def test_parseText_Single44(self):
@@ -838,93 +838,93 @@ class logChunktest(unittest.TestCase):
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method == "auto_copying_data_provider_t::get_data_into_buffers")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 4, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 4, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
         self.assertTrue(funcList[1].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[1].keywordDictionary)
 
     def test_parseText_Single45(self): #Not Sure how I want to handle this
         self.chunk45.parseText()
-        funcList = self.chunk45.functions 
+        funcList = self.chunk45.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method == "Int32BinopInputShapeTester")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
         self.assertTrue(funcList[1].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 1, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[1].keywordDictionary)
 
     def test_parseText_Single46(self): #Not Sure how I want to handle this
         self.chunk46.parseText()
-        funcList = self.chunk46.functions 
+        funcList = self.chunk46.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 3)
         self.assertTrue(funcList[0].method == "QuatF::mulP")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method == "QuatF::mul")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[2].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[2].keywordDictionary)
 
     def test_parseText_Single47(self): #Not Sure how I want to handle this
         self.chunk47.parseText()
-        funcList = self.chunk47.functions 
+        funcList = self.chunk47.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 1)
         self.assertTrue(funcList[0].method == "CCAnimate::initWithAnimation")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 1, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 1, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
     def test_parseText_Single48(self): #Not Sure how I want to handle this
         self.chunk48.parseText()
-        funcList = self.chunk48.functions 
+        funcList = self.chunk48.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 5)
         self.assertTrue(funcList[0].method == "&=")
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 1, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[4].method == NON_FUNC)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[4].keywordDictionary)
 
 
     def test_parseText_Single49(self): #Not Sure how I want to handle this
         self.chunk49.parseText()
-        funcList = self.chunk49.functions 
+        funcList = self.chunk49.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method == "ClientInfo::newRequest")
         self.assertTrue(funcList[0].total_add == 1)
         self.assertTrue(funcList[0].total_del == 1)
 
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method == "ClientInfo::create")
         self.assertTrue(funcList[1].total_add == 1)
         self.assertTrue(funcList[1].total_del == 1)
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[1].keywordDictionary)
 
 
     def test_parseText_Single50(self): #Not Sure how I want to handle this
         self.chunk50.parseText()
-        funcList = self.chunk50.functions 
+        funcList = self.chunk50.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 1)
         self.assertTrue(funcList[0].method == "xfs_buf_get")
         self.assertTrue(funcList[0].total_add == 2)
         self.assertTrue(funcList[0].total_del == 7)
 
-        testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         self.assertEqual(testDict, funcList[0].keywordDictionary)
 
 
@@ -934,7 +934,7 @@ class logChunktest(unittest.TestCase):
         #I don't have time to fix this yet, so I'm adding a test case to make sure it doesn't crash
         #but instead returns a error parse statement
         self.chunk51.parseText()
-        funcList = self.chunk51.functions 
+        funcList = self.chunk51.functions
         #self.debugFunctions(funcList)
 
         self.assertTrue(len(funcList) == 1)
@@ -942,26 +942,26 @@ class logChunktest(unittest.TestCase):
 
     def test_parseText_Single52(self): #Not Sure how I want to handle this, this case is part of a larger failing chunk.
         self.chunk52.parseText()
-        funcList = self.chunk52.functions 
+        funcList = self.chunk52.functions
         #self.debugFunctions(funcList)
 
-    def test_parseText_Single53(self): 
+    def test_parseText_Single53(self):
         #This is an old style K&R C function declaration.
         #http://stackoverflow.com/questions/3092006/function-declaration-kr-vs-ansi
         #The syntax is deprecated but still legal.
-        #I think trying to capture these may accidently lead to capturing other types of non-functions, 
+        #I think trying to capture these may accidently lead to capturing other types of non-functions,
         #due to the presence of ';'.  I'll throw an issue up for it.
         self.chunk53.parseText()
-        funcList = self.chunk53.functions 
+        funcList = self.chunk53.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 1)
         #Re-enable this later....
         #self.assertTrue(funcList[0].method == "set_offsets_for_label")
 
 
-    def test_parseText_Single54(self): 
+    def test_parseText_Single54(self):
         self.chunk54.parseText()
-        funcList = self.chunk54.functions 
+        funcList = self.chunk54.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 6)
         self.assertTrue(funcList[0].method == "Reset")
@@ -973,7 +973,7 @@ class logChunktest(unittest.TestCase):
 
     def test_parseText_Single55(self): # Testing our ability to find struct constructors.
         self.chunk55.parseText()
-        funcList = self.chunk55.functions 
+        funcList = self.chunk55.functions
         #self.debugFunctions(funcList)
         self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method == "boss_jaraxxusAI")
@@ -1061,12 +1061,12 @@ class logChunktest(unittest.TestCase):
         #self.assertTrue(len(funcList) == 2)
 
         #self.assertTrue(funcList[0].method ==  "_ccv_rgb_to_yuv")
-        #testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 0, 'ut_a Dels': 0}
+        #testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 0, 'ut_a dels': 0}
         #self.assertTrue(testDict,funcList[0].keywordDictionary)
         #self.assertTrue(len(funcList[0].assertionList) == 0)
 
         #self.assertTrue(funcList[1].method ==  "ccv_color_transform")
-        #testDict = { 'ut_ad Adds': 0, 'assert Dels': 0, 'ut_ad Dels': 0, 'ut_a Adds': 0, 'assert Adds': 2, 'ut_a Dels': 0}
+        #testDict = { 'ut_ad adds': 0, 'assert dels': 0, 'ut_ad dels': 0, 'ut_a adds': 0, 'assert adds': 2, 'ut_a dels': 0}
         #self.assertTrue(testDict,funcList[1].keywordDictionary)
         #self.assertTrue(len(funcList[1].assertionList) == 2)
 
