@@ -35,7 +35,7 @@ class logChunk:
         self.initialized = False
         self.total_add = 0
         self.total_del = 0
-	self.total_ctxt = 0
+        self.total_ctxt = 0
         self.header = "" #What is the name given after '@@' in log
         self.langSwitch = LanguageSwitcherFactory.LanguageSwitcherFactory.createLS(language)
         self.sT = ScopeTrackerFactory.ScopeTrackerFactory.createST(self.langSwitch, self.config_info)
@@ -147,8 +147,8 @@ class logChunk:
 
         return False
 
-    # --> List of 2
-    #Return a list of 2 element that show how many lines were added and removed from
+    # --> List of 3
+    #Return a list of 3 element that show how many lines were added, removed or they were context lines from
     #the set of real functions in this chunk.
     def sumLinesForRealFunc(self):
         output = [0,0,0]
