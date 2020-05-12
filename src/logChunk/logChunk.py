@@ -110,6 +110,7 @@ class logChunk:
         print("===========================================")
         print("Total add: " + str(self.total_add))
         print("Total del: " + str(self.total_del))
+        print("Total ctxt: "+ str(self.total_ctxt))
         print("Header: " + str(self.header))
         print("Functions:")
         for func in self.functions:
@@ -130,6 +131,7 @@ class logChunk:
         self.initialized = False
         self.total_add = 0
         self.total_del = 0
+        self.total_ctxt = 0
         self.header = "" #What is the name given after '@@' in log
         self.sT = None
         self.langSwitch = None
@@ -149,19 +151,22 @@ class logChunk:
     #Return a list of 2 element that show how many lines were added and removed from
     #the set of real functions in this chunk.
     def sumLinesForRealFunc(self):
-        output = [0,0]
+        output = [0,0,0]
         for func in self.functions:
             if(func.method != MOCK):
                 output[0] += func.total_add
                 output[1] += func.total_del
+                output[2] += func.total_ctxt
 
         #This sum of the real function contents shouldn't be greater than
         #the total lines added and deleted in the diff.
         if(self.config_info.DEBUG):
             print("SUM of func adds: " + str(output[0]))
             print("SUM of func dels: " + str(output[1]))
+            print("SUM of func ctxt: " + str(outout[2]))
             print("Total adds: " + str(self.total_add))
             print("Total dels: " + str(self.total_del))
+            print("Total ctxt: " + str(self.total_ctxt))
 
         #if(output[0] > self.total_add or output[1] > self.total_del):
             #raise CountException("Miscount between counts outside the function and the total within the functions.")
@@ -171,13 +176,15 @@ class logChunk:
             self.total_add = output[0]
         if(output[1] > self.total_del):
             self.total_del = output[1]
+        if(output[2] > self.total_ctxt):
+            self.total_ctxt = output[2]
 
         return output
 
     def getLineCountOutsideFunc(self):
         #try:
-        (func_add, func_del) = self.sumLinesForRealFunc() #Assert inside takes care of miscounts
-        return(self.total_add - func_add, self.total_del - func_del)
+        (func_add, func_del, func_ctxt) = self.sumLinesForRealFunc() #Assert inside takes care of miscounts
+        return(self.total_add - func_add, self.total_del - func_del, self.total_ctxt - func_ctxt)
         #except CountException:
         #    if(self.config_info.DEBUG):
         #        print("Count error")
@@ -539,7 +546,7 @@ class logChunk:
 
     #Update the counts of the total log chunk and function in the case of a normal, non comment
     #line.
-    def updateCounts(self, lineType, ftotal_add, ftotal_del, phase, startFlag):
+    def updateCounts(self, lineType, ftotal_add, ftotal_del, ftotal_ctxt, phase, startFlag):
         if(lineType == ADD):
             self.total_add += 1 #This tracks + for whole chunks.
             if(phase == LOOKFOREND):
@@ -558,7 +565,7 @@ class logChunk:
         else:
             assert(lineType==OTHER)
 
-        return (ftotal_add, ftotal_del)
+        return (ftotal_add, ftotal_del, ftotal_ctxt)
 
 
 
@@ -594,7 +601,7 @@ class logChunk:
 
     #When we've seen an increase in scope, this function handles the preperation to checking the regex
     #updates the scope stacks and maintains any additional information necessary (such as if we've entered a class)
-    def checkForFunctionName(self, phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del):
+    def checkForFunctionName(self, phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del, ftotal_ctxt):
         if(self.config_info.DEBUG):
             print("Scope increase while searching for function.")
 
@@ -648,6 +655,9 @@ class logChunk:
             elif(lineType == ADD):
                 ftotal_add = 1
                 startFlag=1
+            elif(lineType == CTXT):
+                ftotal_ctxt = 1
+                startFlag=1
 
             #Remove the last of the function
             line = self.langSwitch.clearFunctionRemnants(line)
@@ -664,9 +674,9 @@ class logChunk:
 
             functionName = self.langSwitch.resetFunctionName(line) #Reset name and find next
 
-        return (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del)
+        return (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del, ftotal_ctxt)
 
-    def checkForFunctionEnd(self, lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack):
+    def checkForFunctionEnd(self, lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack):
         if(self.sT.getFuncContext(lineType) == "" and phase == LOOKFOREND and shortFunctionName != ""): #Error, this will trigger on a rename in python...
             funcEnd = lineNum
             if(backTrack):
@@ -675,8 +685,10 @@ class logChunk:
                     ftotal_add -= 1
                 elif(lineType == REMOVE):
                     ftotal_del -= 1
+                elif(lineType == CTXT):
+                    ftotal_ctxt -= 1
 
-            (funcStart, funcEnd, ftotal_add, ftotal_del) = self.sT.adjustFunctionBorders(funcStart, funcEnd, ftotal_add, ftotal_del)
+            (funcStart, funcEnd, ftotal_add, ftotal_del, ftotal_ctxt) = self.sT.adjustFunctionBorders(funcStart, funcEnd, ftotal_add, ftotal_del, ftotal_ctxt)
 
             if(self.config_info.DEBUG):
                 print("OLD")
@@ -691,7 +703,7 @@ class logChunk:
             #We use shortFunctionName, which is the string that matched our expected
             #function pattern regex
             try:
-                funcToAdd = PatchMethod(self.langSwitch.parseFunctionName(shortFunctionName), funcStart, funcEnd, ftotal_add, ftotal_del,keywordDictionary, self.warning)
+                funcToAdd = PatchMethod(self.langSwitch.parseFunctionName(shortFunctionName), funcStart, funcEnd, ftotal_add, ftotal_del, ftotal_ctxt, keywordDictionary, self.warning)
             except ValueError: #Catch error and pass up to parseText.
                 raise ValueError("Function Name Parse Error")
             #Add assertions from current function
@@ -704,6 +716,7 @@ class logChunk:
             funcEnd = 0
             ftotal_add = 0
             ftotal_del = 0
+            ftotal_ctxt = 0
             phase = LOOKFORNAME
             lineType=OTHER
             foundBlock=None
@@ -720,7 +733,7 @@ class logChunk:
                     keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                     keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
-        return (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
+        return (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
 
 
     #When we know that we're inside a function, we need to process the single and block keywords and update the scope
@@ -955,6 +968,7 @@ class logChunk:
         classContext = [] #If we are parsing inside a class, what is the closest class name?
         ftotal_add=0
         ftotal_del=0
+        ftotal_ctxt=0
         keywordDictionary = OrderedDict()
         outsideFuncKeywordDictionary = OrderedDict() # A grouping for all keywords found outside function contexts
 
@@ -1016,7 +1030,7 @@ class logChunk:
                 (keywordDictionary, ftotal_add, ftotal_del) = self.modifyCountForComment(fChange, lineType, keywordDictionary, blockKeyWordList, ftotal_add, ftotal_del)
                 continue
             else: #Otherwise, update just the function and total counts
-                (ftotal_add, ftotal_del) = self.updateCounts(lineType, ftotal_add, ftotal_del, phase, startFlag)
+                (ftotal_add, ftotal_del, ftotal_ctxt) = self.updateCounts(lineType, ftotal_add, ftotal_del, ftotal_ctxt, phase, startFlag)
 
             #Handle Continuation Lines if necessary
             try:
@@ -1069,7 +1083,7 @@ class logChunk:
 
                 if(sResult == scopeTracker.S_YES): #Problem, in python we can see a function on a line with a scope decrease
                     try:
-                        (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del) = self.checkForFunctionName(phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del)
+                        (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del, ftotal_ctxt) = self.checkForFunctionName(phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del, ftotal_ctxt)
                     except UnsupportedScopeException:
                         self.markAllWithWarning()
                         continue
@@ -1087,7 +1101,7 @@ class logChunk:
                     #Decrease scope of one to decrease first, then do function update???
                     try:
                         self.sT.decreaseScope(line, lineType, -1, True)
-                        (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del) = self.checkForFunctionName(phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del)
+                        (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del, ftotal_ctxt) = self.checkForFunctionName(phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del, ftotal_ctxt)
                     except UnsupportedScopeException:
                         self.markAllWithWarning()
                         continue
@@ -1111,7 +1125,7 @@ class logChunk:
 
                 #Wrap up the function if necessary
                 try:
-                    (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack) = self.checkForFunctionEnd(lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
+                    (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack) = self.checkForFunctionEnd(lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
                 except ValueError:
                     return self.markChunkAsError()
 
@@ -1132,7 +1146,7 @@ class logChunk:
 
                 #Wrap up the function if necessary
                 try:
-                    (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack) = self.checkForFunctionEnd(lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
+                    (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack) = self.checkForFunctionEnd(lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
                 except ValueError:
                     return self.markChunkAsError()
 
@@ -1154,7 +1168,7 @@ class logChunk:
             shortFunctionName = self.sT.getFuncContext(ADD)
             funcEnd = lineNum
             try:
-                funcToAdd = PatchMethod(self.langSwitch.parseFunctionName(shortFunctionName), funcStart, funcEnd, ftotal_add, ftotal_del,keywordDictionary,self.warning)
+                funcToAdd = PatchMethod(self.langSwitch.parseFunctionName(shortFunctionName), funcStart, funcEnd, ftotal_add, ftotal_del, ftotal_ctxt, keywordDictionary,self.warning)
             except ValueError:
                 return self.markChunkAsError()
 
@@ -1164,7 +1178,7 @@ class logChunk:
             shortFunctionName = self.sT.getFuncContext(REMOVE)
             funcEnd = lineNum
             try:
-                funcToAdd = PatchMethod(self.langSwitch.parseFunctionName(shortFunctionName), funcStart, funcEnd, ftotal_add, ftotal_del,keywordDictionary,self.warning)
+                funcToAdd = PatchMethod(self.langSwitch.parseFunctionName(shortFunctionName), funcStart, funcEnd, ftotal_add, ftotal_del, ftotal_ctxt, keywordDictionary,self.warning)
             except ValueError:
                 return self.markChunkAsError()
 
