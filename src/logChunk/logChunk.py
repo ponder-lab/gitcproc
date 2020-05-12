@@ -549,6 +549,11 @@ class logChunk:
             if(phase == LOOKFOREND):
                 if(startFlag==0):
                     ftotal_del += 1
+        elif(lineType == CTXT):
+            self.total_ctxt += 1
+            if(phase == LOOKFOREND):
+                if(startFlag==0):
+                    ftotal_ctxt += 1
         else:
             assert(lineType==OTHER)
 
