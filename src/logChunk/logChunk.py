@@ -35,6 +35,7 @@ class logChunk:
         self.initialized = False
         self.total_add = 0
         self.total_del = 0
+	self.total_ctxt = 0
         self.header = "" #What is the name given after '@@' in log
         self.langSwitch = LanguageSwitcherFactory.LanguageSwitcherFactory.createLS(language)
         self.sT = ScopeTrackerFactory.ScopeTrackerFactory.createST(self.langSwitch, self.config_info)
