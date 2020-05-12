@@ -12,12 +12,13 @@ def toStr(text):
 
 class PatchMethod:
 
-    def __init__(self, name, start=0, end=0, added=0, deleted=0,keyDict={}, errNote = False):
+    def __init__(self, name, start=0, end=0, added=0, deleted=0, ctxt=0, keyDict={}, errNote = False):
         self.method = name
         self.start = start
         self.end = end
         self.total_add = added
         self.total_del = deleted
+        self.total_ctxt = ctxt
         self.keywordDictionary= keyDict.copy()
         self.warning = errNote #Alert for possible parse error.
 
@@ -30,6 +31,7 @@ class PatchMethod:
 
         retStr += "\t\ttotal_add   = %d\n" % (self.total_add)
         retStr += "\t\ttotal_del   = %d\n" % (self.total_del)
+        retStr += "\t\ttotal_ctxt	= %d\n" % (self.total_ctxt)
         retStr += "\t\tkeywordDictonary   = %s\n" % (self.keywordDictionary)
         retStr += "\t\terror/warning   = %s\n" % (self.warning)
 
@@ -40,7 +42,7 @@ class PatchMethod:
         for key, value in self.keywordDictionary.iteritems():
             dictStr= dictStr+","+ toStr(value)
 
-        dictStr += "," + toStr(self.total_add) + "," + toStr(self.total_del) + "," + toStr(self.warning)
+        dictStr += "," + toStr(self.total_add) + "," + toStr(self.total_del) + "," + toStr(self.total_ctxt) + "," + toStr(self.warning)
 
         return dictStr
 
@@ -50,7 +52,7 @@ class PatchMethod:
         for key, value in self.keywordDictionary.iteritems():
             dictStr= dictStr+",\""+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_") + "\"" #ToStr will add ' around the strings...
 
-        dictStr += ",total_adds,total_dels,warning_alert)"
+        dictStr += ",total_adds,total_dels,total_ctxt,warning_alert)"
 
         return dictStr
 
@@ -66,7 +68,7 @@ class PatchMethod:
             dictStr= dictStr+", "+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_") + \
                 "integer" #ToStr will add ' around the strings...
 
-        dictStr += ", total_adds integer, total_dels integer, warning_alert boolean)"
+        dictStr += ", total_adds integer, total_dels integer, total_ctxt integer, warning_alert boolean)"
 
         return dictStr
 
@@ -94,10 +96,11 @@ class PatchMethod:
         method      = toStr(self.method).replace(","," ")
         total_add   = toStr(self.total_add)
         total_del   = toStr(self.total_del)
+        total_ctxt  = toStr(self.total_ctxt)
         warn        = toStr(self.warning)
         # unique_exception_add=toStr(self.etotal_add)
         # unique_exception_del=toStr(self.etotal_del)
-        methodStr = (",").join((method,total_add,total_del,self.dictToCsv(),warn))
+        methodStr = (",").join((method,total_add,total_del,total_ctxt,self.dictToCsv(),warn))
         return methodStr
 
 

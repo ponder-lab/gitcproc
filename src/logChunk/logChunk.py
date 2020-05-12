@@ -1213,7 +1213,8 @@ class logChunk:
         #We don't trust the results of parsing this chunk, so return a general error statement.
         self.total_add = 0
         self.total_del = 0
-        self.functions = [PatchMethod(CHUNK_ERROR, 0, 0, 0, 0, self.getEmptyKeywordDict(), True)]
+        self.total_ctxt = 0
+        self.functions = [PatchMethod(CHUNK_ERROR, 0, 0, 0, 0, 0, self.getEmptyKeywordDict(), True)]
         return self
 
     def markAllWithWarning(self):
