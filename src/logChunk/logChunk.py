@@ -195,9 +195,9 @@ class logChunk:
     def createOutsideFuncSummary(self, keywordDictionary = {}):
         if(keywordDictionary == {}):
             keywordDictionary = self.getEmptyKeywordDict()
-        (added, deleted) = self.getLineCountOutsideFunc()
+        (added, deleted, ctxt) = self.getLineCountOutsideFunc()
         if(added > 0 or deleted > 0):
-            return PatchMethod(NON_FUNC, 0, 0, added, deleted, keywordDictionary, self.warning)
+            return PatchMethod(NON_FUNC, 0, 0, added, deleted, ctxt, keywordDictionary, self.warning)
         else:
             return None
 
