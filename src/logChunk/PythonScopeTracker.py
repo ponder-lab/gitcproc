@@ -558,19 +558,21 @@ class PythonScopeTracker(scopeTracker):
     def changeScopeFirst(self):
         return True
 
-    def adjustFunctionBorders(self, start, end, adds, deletes):
+    def adjustFunctionBorders(self, start, end, adds, deletes, ctxt):
         if(self.shiftStart):
             self.shiftStart = False
             if(self.startType == ADD):
-                return (start - 1, end, adds - 1 , deletes)
+                return (start - 1, end, adds - 1 , deletes, ctxt)
             elif(self.startType == REMOVE):
-                return (start - 1, end, adds , deletes - 1)
+                return (start - 1, end, adds , deletes - 1, ctxt)
             elif(self.startType == OTHER):
-                return (start - 1, end, adds, deletes)
+                return (start - 1, end, adds, deletes, ctxt)
+            elif(self.startType == CTXT):
+                return (start - 1, end, adds, deletes, ctxt - 1)
             else:
                 assert("Invalid line type.")
         else:
-            return (start, end, adds, deletes)
+            return (start, end, adds, deletes, ctxt)
 
     def getBlocksFromStack(self, stack):
         subList = []

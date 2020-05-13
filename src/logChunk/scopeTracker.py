@@ -169,7 +169,7 @@ class scopeTracker(object):
     def functionUpdateWithoutScopeChange(self, line, lineType, functionName, funcIdentFunc):
         raise NotImplementedError("Base ScopeTracker is Abstract.")
 
-    def adjustFunctionBorders(self, start, end, adds, deletes):
+    def adjustFunctionBorders(self, start, end, adds, deletes, ctxt):
         raise NotImplementedError("Base ScopeTracker is Abstract.")
 
 
