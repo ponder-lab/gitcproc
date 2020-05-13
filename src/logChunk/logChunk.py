@@ -725,6 +725,7 @@ class logChunk:
                 if(keyword[1] != EXCLUDED):
                     keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                     keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " ctxt"] = 0
             for keyword in blockKeyWordList:
                 #Hack to make run with the 'tryDependedCatch' keyword
                 if(not isinstance(keyword, list) or len(keyword) != KEYLISTSIZE):
@@ -732,6 +733,7 @@ class logChunk:
                 elif(keyword[1] != EXCLUDED):
                     keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
                     keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " ctxt"] = 0
 
         return (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, ftotal_ctxt, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
 
