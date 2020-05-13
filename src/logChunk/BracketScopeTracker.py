@@ -205,5 +205,5 @@ class BracketScopeTracker(scopeTracker):
     def afterIncrease(self, line):
         return line[line.find("{")+1:]
 
-    def adjustFunctionBorders(self, start, end, adds, deletes):
-        return (start, end, adds, deletes)
+    def adjustFunctionBorders(self, start, end, adds, deletes, ctxt):
+        return (start, end, adds, deletes, ctxt)
