@@ -163,7 +163,7 @@ class logChunk:
         if(self.config_info.DEBUG):
             print("SUM of func adds: " + str(output[0]))
             print("SUM of func dels: " + str(output[1]))
-            print("SUM of func ctxt: " + str(outout[2]))
+            print("SUM of func ctxt: " + str(output[2]))
             print("Total adds: " + str(self.total_add))
             print("Total dels: " + str(self.total_del))
             print("Total ctxt: " + str(self.total_ctxt))
