@@ -144,7 +144,7 @@ class scopeTracker(object):
 
     #Return the surrounding functional context or "" if not on the stack
     def getFuncContext(self, lineType):
-        if(lineType == ADD or lineType == OTHER):
+        if(lineType == ADD or lineType == OTHER or lineType == CTXT):
             return self.lastNewFuncContext
         elif(lineType == REMOVE):
             return self.lastOldFuncContext
@@ -153,7 +153,7 @@ class scopeTracker(object):
 
     #Return the surrounding block contexts or [] if not on the stack
     def getBlockContext(self, lineType):
-        if(lineType == ADD or lineType == OTHER):
+        if(lineType == ADD or lineType == OTHER or lineType == CTXT):
             return self.lastNewBlockContext
         elif(lineType == REMOVE):
             return self.lastOldBlockContext

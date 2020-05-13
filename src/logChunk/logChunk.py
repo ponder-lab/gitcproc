@@ -275,7 +275,7 @@ class logChunk:
     #String, String, list of Strings, dictionary, String -> dictionary
     #Modify the keyword dictionary for this line.
     def parseLineForKeywords(self, line, lineType, keywords, keywordDict, blockContext = []):
-        assert(lineType == ADD or lineType == REMOVE) #How do we handle block statements where only internal part modified?
+        #assert(lineType == ADD or lineType == REMOVE) #How do we handle block statements where only internal part modified?
         line = self.removeExcludedKeywords(line, keywords)
         #Make sure keywords are sorted by decreasing length, in case one is contained
         #inside the other, e.g. ut_ad and ut_a
@@ -829,7 +829,7 @@ class logChunk:
                                 blockKeywordType = lineType
                                 blockKeywordLine = lineNum
 
-                        if(lineType != OTHER and lineType != CTXT):
+                        if(lineType != OTHER):
                             #Search for single line keywords BEFORE the scope decrease if in non decrease first language.
                             if(not sT.changeScopeFirst()):
                                 keywordDictionary = self.parseLineForKeywords(sT.beforeDecrease(line), lineType, singleKeyWordList, keywordDictionary)
@@ -837,7 +837,7 @@ class logChunk:
                                 keywordDictionary = self.parseLineForKeywords(line, lineType, singleKeyWordList, keywordDictionary)
 
 
-                        if(sT.getBlockContext(lineType) != [] and lineType!=OTHER and lineType!=CTXT):
+                        if(sT.getBlockContext(lineType) != [] and lineType!=OTHER):
                             if(self.config_info.DEBUG):
                                 print("Current block context: " + str(sT.getBlockContext(lineType)))
                             keywordDictionary = self.parseLineForKeywords(line, lineType, blockKeyWordList, keywordDictionary, sT.getBlockContext(lineType))
@@ -886,11 +886,11 @@ class logChunk:
                             return (foundBlock, blockKeywordLine, blockKeywordType, shortFunctionName, keywordDictionary, sT, True)
 
 
-                        if(lineType != OTHER and lineType != CTXT):
+                        if(lineType != OTHER):
                             #Search for single line keywords BEFORE the scope decrease if in non decrease first language.
                             keywordDictionary = self.parseLineForKeywords(sT.beforeDecrease(line), lineType, singleKeyWordList, keywordDictionary)
 
-                        if(sT.getBlockContext(lineType) != [] and lineType!=OTHER and lineType!=CTXT):
+                        if(sT.getBlockContext(lineType) != [] and lineType!=OTHER):
                             if(self.config_info.DEBUG):
                                 print("Current block context: " + str(sT.getBlockContext(lineType)))
                             keywordDictionary = self.parseLineForKeywords(line, lineType, blockKeyWordList, keywordDictionary, sT.getBlockContext(lineType))
@@ -909,7 +909,7 @@ class logChunk:
 
 
         #Problem is figuring out when this is appropriate to call...
-        if(lineType != OTHER and lineType != CTXT):
+        if(lineType != OTHER):
             temp = line
             if(scopeChanges != [DECREASE] and scopeChanges != [INCREASE, DECREASE] and scopeChanges != [scopeTracker.S_SIMUL]):
                 keywordDictionary = self.parseLineForKeywords(temp, lineType, singleKeyWordList, keywordDictionary)
