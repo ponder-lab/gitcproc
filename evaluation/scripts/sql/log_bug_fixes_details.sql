@@ -1,5 +1,5 @@
 COPY (
-	SELECT method_change_detail.* 
+	SELECT method_change_detail.*, change_summary.is_bug
 	FROM   method_change_detail 
 	       INNER JOIN change_summary 
 		       ON method_change_detail.sha = change_summary.sha 
