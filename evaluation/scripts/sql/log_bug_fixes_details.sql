@@ -1,3 +1,5 @@
+ALTER TABLE method_change_detail DROP method_name;
+
 COPY (
 	SELECT method_change_detail.*, change_summary.is_bug
 	FROM   method_change_detail 
@@ -20,6 +22,5 @@ COPY (
 			OR "logrb__ctxt" > 0 ) 
 	ORDER  BY method_change_detail.project DESC, 
 		  method_change_detail.sha, 
-		  file_name, 
-		  method_name 
+		  file_name
 ) TO STDOUT with CSV HEADER
