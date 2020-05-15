@@ -1,5 +1,3 @@
-ALTER TABLE method_change_detail DROP method_name;
-
 COPY (
 	SELECT method_change_detail.*, change_summary.is_bug
 	FROM   method_change_detail 
