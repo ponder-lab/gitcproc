@@ -22,15 +22,18 @@ parser.add_argument("config_file", help = "This is the path to your configuratio
 parser.add_argument("-d","--download", action="store_true", help = "Flag that indicates you want to run the step to download the projects.")
 parser.add_argument("-wl","--write_log", action="store_true", help = "Flag that indicates you want to run the step to write the logs.")
 parser.add_argument("-pl","--parse_log", action="store_true", help = "Flag that indicates you want to run the step to parse the logs.")
-#parser.add_argument("-p","--password", type = str, default = None, help = "If you are outputting to the database, you must enter your password.")
+parser.add_argument("-p","--password", type = str, default = None, help = "If you are outputting to the database, you must enter your password.")
 
 args = parser.parse_args()
 
 config_file = args.config_file
-config_info = ConfigInfo(config_file)   
+config_info = ConfigInfo(config_file)
 
 if(config_info.DATABASE and args.parse_log): #If we have database output selected and are performing the parse-log step.
-    password = getpass.getpass(prompt="Database option selected, enter your password:")
+    if args.password is not None:
+        password = args.password
+    else:
+        password = getpass.getpass(prompt="Database option selected, enter your password:")
 else:
     password = ""
 
@@ -75,10 +78,10 @@ if(args.parse_log):
         if(len(project_set) != 0 and name not in project_set):
             continue
         #subprocess.call(["python", "ghProc.py", next_project, config_file, password])
-        subprocess.call(["nohup", "sh", "run.sh", next_project, name, config_file, password]) 
+        subprocess.call(["nohup", "sh", "run.sh", next_project, name, config_file, password])
 
 
 #Parellel Version:
-#p = subprocess.Popen([sys.executable, '/path/to/script.py'], 
-#                                    stdout=subprocess.PIPE, 
+#p = subprocess.Popen([sys.executable, '/path/to/script.py'],
+#                                    stdout=subprocess.PIPE,
 #                                    stderr=subprocess.STDOUT)

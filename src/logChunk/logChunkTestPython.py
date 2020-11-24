@@ -27,7 +27,7 @@ class logChunktest(unittest.TestCase):
             print(func.end)
             print(func.total_add)
             print(func.total_del)
-            print(func.keywordDictionary)           
+            print(func.keywordDictionary)
         print("===========================================")
 
 
@@ -69,7 +69,7 @@ class logChunktest(unittest.TestCase):
 
     def test_isFunction(self):
         self.assertTrue(self.testChunk.isFunction(self.method1))
-        self.assertTrue(self.testChunk.isFunction(self.method2))        
+        self.assertTrue(self.testChunk.isFunction(self.method2))
         self.assertTrue(self.testChunk.isFunction(self.method3))
         self.assertTrue(self.testChunk.isFunction(self.method4))
         self.assertFalse(self.testChunk.isFunction(self.method5))
@@ -98,12 +98,12 @@ class logChunktest(unittest.TestCase):
         self.chunk1.parseText()
         funcList = self.chunk1.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 1) 
+        self.assertTrue(len(funcList) == 1)
         self.assertTrue(funcList[0].method=="_ask_default")
         self.assertTrue(funcList[0].total_add == 1)
         self.assertTrue(funcList[0].total_del == 1)
 
-        testDict = {'print Adds': 1, 'print Dels': 1, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 1, 'print dels': 1, 'if dels': 0, 'if adds': 0}
 
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
@@ -112,12 +112,12 @@ class logChunktest(unittest.TestCase):
         self.chunk2.parseText()
         funcList = self.chunk2.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 1) 
+        self.assertTrue(len(funcList) == 1)
         self.assertTrue(funcList[0].method=="url")
         self.assertTrue(funcList[0].total_add == 4)
         self.assertTrue(funcList[0].total_del == 1)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 2}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 2}
 
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
@@ -125,18 +125,18 @@ class logChunktest(unittest.TestCase):
         self.chunk3.parseText()
         funcList = self.chunk3.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 2) 
+        self.assertTrue(len(funcList) == 2)
         self.assertTrue(funcList[0].method=="testFunc")
-        
-        testDict = {'print Adds': 2, 'print Dels': 2, 'if Dels': 2, 'if Adds': 2}
+
+        testDict = {'print adds': 2, 'print dels': 2, 'if dels': 2, 'if adds': 2}
 
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method==NON_FUNC) #The exact count here is a bit off, but going to ignore...
-        #self.assertTrue(funcList[1].total_add == 1) 
+        #self.assertTrue(funcList[1].total_add == 1)
         #self.assertTrue(funcList[1].total_del == 1)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertTrue(testDict,funcList[1].keywordDictionary)
 
 
@@ -144,14 +144,14 @@ class logChunktest(unittest.TestCase):
         self.chunk4.parseText()
         funcList = self.chunk4.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 1) 
+        self.assertTrue(len(funcList) == 1)
         self.assertTrue(funcList[0].method=="_get_queryset")
         #self.assertTrue(funcList[0].total_add == 7)
         #self.assertTrue(funcList[0].total_del == 18)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 5, 'if Adds': 2} #Should be 4 but hacking to make test suite pass at the moment
-        #testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 4, 'if Adds': 2}
-        #testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 1, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 7, 'if adds': 2} #Should be 4 but hacking to make test suite pass at the moment
+        #testDict = {'print adds': 0, 'print dels': 0, 'if dels': 4, 'if adds': 2}
+        #testDict = {'print adds': 0, 'print dels': 0, 'if dels': 1, 'if adds': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
     def test_parseText5(self):
@@ -163,50 +163,50 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(funcList[0].total_add == 2)
         self.assertTrue(funcList[0].total_del == 0)
 
-        testDict = {'print Adds': 1, 'print Dels': 0, 'if Dels': 0, 'if Adds': 2}
+        testDict = {'print adds': 1, 'print dels': 0, 'if dels': 0, 'if adds': 2}
 
         self.assertTrue(funcList[1].method == NON_FUNC)
         self.assertTrue(funcList[1].total_add == 1)
         self.assertTrue(funcList[1].total_del == 1)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertTrue(testDict,funcList[1].keywordDictionary)
 
     def test_parseText6(self):
         self.chunk6.parseText()
         funcList = self.chunk6.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 4) 
+        self.assertTrue(len(funcList) == 4)
 
         self.assertTrue(funcList[0].method=="__init__")
         self.assertTrue(funcList[0].total_add == 1)
         self.assertTrue(funcList[0].total_del == 0)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertTrue(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method=="from_crawler")
         self.assertTrue(funcList[1].total_add == 3)
         self.assertTrue(funcList[1].total_del == 1)
-        
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertTrue(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[2].method=="open")
         self.assertTrue(funcList[2].total_add == 1)
         self.assertTrue(funcList[2].total_del == 1)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertTrue(testDict,funcList[2].keywordDictionary)
 
         self.assertTrue(funcList[3].method==NON_FUNC)
         self.assertTrue(funcList[3].total_add == 0)
         self.assertTrue(funcList[3].total_del == 1)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertTrue(testDict,funcList[3].keywordDictionary)
-     
+
     def test_parseText7(self):
         self.chunk7.parseText()
         funcList = self.chunk7.functions
@@ -231,31 +231,31 @@ class logChunktest(unittest.TestCase):
         self.chunk8.parseText()
         funcList = self.chunk8.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 1) 
+        self.assertTrue(len(funcList) == 1)
         self.assertTrue(funcList[0].method=="confusedFunction")
         self.assertTrue(funcList[0].total_add == 3)
         self.assertTrue(funcList[0].total_del == 3)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
     def test_parseText9(self):
         self.chunk9.parseText()
         funcList = self.chunk9.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 3) 
+        self.assertTrue(len(funcList) == 3)
         self.assertTrue(funcList[0].method=="__init__")
         self.assertTrue(funcList[0].total_add == 2)
         self.assertTrue(funcList[0].total_del == 0)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertEqual(testDict,funcList[0].keywordDictionary)
 
         self.assertTrue(funcList[1].method=="open")
         self.assertTrue(funcList[1].total_add == 1)
         self.assertTrue(funcList[1].total_del == 1)
 
-        testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+        testDict = {'print adds': 0, 'print dels': 0, 'if dels': 0, 'if adds': 0}
         self.assertEqual(testDict,funcList[1].keywordDictionary)
 
         self.assertTrue(funcList[2].method==NON_FUNC)
@@ -266,7 +266,7 @@ class logChunktest(unittest.TestCase):
         self.chunk10.parseText()
         funcList = self.chunk10.functions
         #self.debugFunctions(funcList)
-        self.assertTrue(len(funcList) == 3) 
+        self.assertTrue(len(funcList) == 3)
         self.assertTrue(funcList[0].method=="__init__")
         #This is reporting 3, which is wrong by perceived set up, but not
         #conceptually wrong... (We would say 1 add under current definitions)
@@ -290,7 +290,7 @@ class logChunktest(unittest.TestCase):
        self.assertTrue(funcList[0].total_add == 1)
        self.assertTrue(funcList[0].total_del == 3)
 
-       testDict = {'print Adds': 1, 'print Dels': 1, 'if Dels': 0, 'if Adds': 1}
+       testDict = {'print adds': 1, 'print dels': 1, 'if dels': 0, 'if adds': 1}
        self.assertEqual(testDict,funcList[0].keywordDictionary)
 
     def test_parseText12(self):
@@ -302,7 +302,7 @@ class logChunktest(unittest.TestCase):
        self.assertTrue(funcList[0].total_add == 1)
        self.assertTrue(funcList[0].total_del == 1)
 
-       testDict = {'print Adds': 0, 'print Dels': 0, 'if Dels': 1, 'if Adds': 1}
+       testDict = {'print adds': 0, 'print dels': 0, 'if dels': 1, 'if adds': 1}
        self.assertEqual(testDict,funcList[0].keywordDictionary)
 
 
@@ -315,7 +315,7 @@ class logChunktest(unittest.TestCase):
        self.assertTrue(funcList[0].total_add == 2)
        self.assertTrue(funcList[0].total_del == 1)
 
-       testDict = {'print Adds': 1, 'print Dels': 0, 'if Dels': 1, 'if Adds': 1}
+       testDict = {'print adds': 1, 'print dels': 0, 'if dels': 1, 'if adds': 1}
        self.assertEqual(testDict,funcList[0].keywordDictionary)
 
     def test_parseText14(self):
@@ -327,7 +327,7 @@ class logChunktest(unittest.TestCase):
        self.assertTrue(funcList[0].total_add == 2)
        self.assertTrue(funcList[0].total_del == 1)
 
-       testDict = {'print Adds': 1, 'print Dels': 0, 'if Dels': 1, 'if Adds': 1}
+       testDict = {'print adds': 1, 'print dels': 0, 'if dels': 1, 'if adds': 1}
        self.assertEqual(testDict,funcList[0].keywordDictionary)
 
     def test_parseText15(self):
@@ -365,7 +365,7 @@ class logChunktest(unittest.TestCase):
        self.assertTrue(funcList[0].total_add == 1)
        self.assertTrue(funcList[0].total_del == 1)
 
-       testDict = {'print Adds': 1, 'print Dels': 0, 'if Dels': 0, 'if Adds': 0}
+       testDict = {'print adds': 1, 'print dels': 0, 'if dels': 0, 'if adds': 0}
        self.assertEqual(testDict,funcList[0].keywordDictionary)
 
 

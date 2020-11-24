@@ -142,7 +142,7 @@ class Sha:
         i = 0
         if(patches != []):
             #Iterate until we find a patch that contains a method.
-            while(title == "" and i < len(patches)): 
+            while(title == "" and i < len(patches)):
                 title = patches[i].getFullTitleString()
                 i += 1
 
@@ -229,18 +229,18 @@ class Sha:
         global lmtzr
         global stoplist
         isBug = False
-        
+
         text = text.lower()
         text = text.replace('error handl','')
         text = text.replace('error cod','')
-        
+
         imp_words = [lmtzr.lemmatize(word) for word in text.lower().split() \
                         if ((word not in stoplist)) ]
         bug_desc = ' '.join([x for x in imp_words])
-        
+
         if "bug= " in bug_desc or "bug=none" in bug_desc:
             return isBug
-        
+
         if re.search(ERR_STR, '\b'+bug_desc+'\b', re.IGNORECASE):
             isBug = True
 
@@ -266,7 +266,7 @@ class ghLogDb:
         self.dbPass = password
         self.config_info = c_info #configuration info and options
 
-    
+
 
     def __str__(self):
 
@@ -290,7 +290,7 @@ class ghLogDb:
         is_auth = re.search(EMAIL, line, re.IGNORECASE)
         if line.startswith("Author:") and is_auth:
             author = is_auth.group(0)
-            shaObj.author = line.split(author)[0].split("Author:")[1] 
+            shaObj.author = line.split(author)[0].split("Author:")[1]
             shaObj.author_email = author
             print("Email: "  + shaObj.author_email)
             shaObj.author = shaObj.author.strip()
@@ -380,7 +380,7 @@ class ghLogDb:
             pass
 
         elif line.startswith("@@ "):
-            if(self.config_info.DEBUG): 
+            if(self.config_info.DEBUG):
                 print("New @@: " + line)
                 print("HEADER: " + curLogChunk.header)
             #Parse the previous chunk and store the results.
@@ -466,8 +466,8 @@ class ghLogDb:
             lst = mockChunk.readKeywords(lst)
             keywords= [k[0] for k in lst if k[1] == INCLUDED]
             for keyword in keywords:
-                listToDict[str(keyword)+" Adds"]=0
-                listToDict[str(keyword)+" Dels"]=0
+                listToDict["\"" + str(keyword) + "\" adds"]=0
+                listToDict["\"" + str(keyword) + "\" dels"]=0
 
             inf2.write("project, sha, language, file_name, is_test, method_name,total_add,total_del,%s\n"%",".join(sorted(listToDict.keys())))
 
@@ -503,20 +503,20 @@ class ghLogDb:
                     #    if(self.config_info.DEBUGLITE):
                     #        print("Writing Sha:" + sha)
 
-                    #    if(self.config_info.DATABASE):            
+                    #    if(self.config_info.DATABASE):
                     #        shaObj.dumpSha(dl)
                     #    elif(self.config_info.CSV):
                     #        shaObj.shaToCsv(inf1,inf2,fPtrChangeSummary,fPtrPatchSummary)
                     #    else:
                     #        shaObj.printSha()
-          
+
                     shaObj = Sha(self.project_name, sha)
                     #if(self.config_info.DEBUGLITE): #Save for testing.
                     self.shas.append(shaObj) #This will become very memory intensive in large git logs.
-                    
+
                     is_diff = False
                     log_mssg = ""
-                    
+
                     continue
 
                 elif self.isAuthor(line,shaObj):
@@ -550,11 +550,11 @@ class ghLogDb:
                         if(patchObj != None):
                             #If there is an existing chunk to parse, process it
                             if(curLogChunk.header != ""):
-                                if(self.config_info.DEBUG): 
+                                if(self.config_info.DEBUG):
                                     print("New diff with previous version: " + line)
                                     print("HEADER: " + curLogChunk.header)
                                 self.processLastChunk(patchObj, curLogChunk)
-                            
+
                             #Reset the current chunk obj
                             if (self.config_info.DEBUG):
                                 print("Resetting.")
@@ -574,7 +574,7 @@ class ghLogDb:
                         #Finish the changes to the old patch object
                         if(patchObj != None):
                             if(curLogChunk.header != ""): #If there is an existing chunk
-                                if (self.config_info.DEBUG): 
+                                if (self.config_info.DEBUG):
                                     print("New diff with no previous version: " + line)
                                     print("HEADER: " + curLogChunk.header)
                                 self.processLastChunk(patchObj, curLogChunk)
@@ -598,7 +598,7 @@ class ghLogDb:
 
         #Make sure to get the last patch in the file!
         if(curLogChunk.header != ""): #If there is an existing chunk to parse
-            if(self.config_info.DEBUG): 
+            if(self.config_info.DEBUG):
                 print("Last Patch: " + line)
                 print("HEADER: " + curLogChunk.header)
             self.processLastChunk(patchObj, curLogChunk)
@@ -623,7 +623,7 @@ class ghLogDb:
             for s in self.shas:
                 #s.printSha()
                 if s != None:
-                   if(self.config_info.DATABASE):            
+                   if(self.config_info.DATABASE):
                        s.dumpSha(dl)
                    elif(self.config_info.CSV):
                        s.shaToCsv(inf1,inf2,fPtrChangeSummary,fPtrPatchSummary)
@@ -640,7 +640,7 @@ class ghLogDb:
         if(self.config_info.DATABASE):
             print("Closing Time.")
             dl.close()
-        
+
         if(self.config_info.CSV):
             inf1.close()
             inf2.close()

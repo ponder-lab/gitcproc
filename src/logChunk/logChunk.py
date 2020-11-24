@@ -47,7 +47,7 @@ class logChunk:
     #Returns true if the string conforms to the pattern <keyword>,[included/excluded],[single,block]
     #and false otherwise
     def keywordValidityCheck(self, line):
-        toCheck = [w.strip().lower() for w in line]
+        toCheck = [w.strip() for w in line]
         if(len(toCheck) != 3):
             return False
         elif(toCheck[1] != INCLUDED and toCheck[1] != EXCLUDED):
@@ -66,13 +66,13 @@ class logChunk:
 
 
     #Read in a file with the following format:
-    #Keyword, Inc/Exc, Single/Block 
+    #Keyword, Inc/Exc, Single/Block
     #And store them as a list of triples
     def readKeywords(self, lst):
         with open(self.KeyWordFile) as f:
             reader = csv.reader(f, delimiter=',', quotechar="\'")
             for l in reader:
-                l = [w.lower() for w in l]
+                l = [w for w in l]
                 if(self.keywordValidityCheck(l)):
                     next = l
                     lst.append(next)
@@ -94,12 +94,12 @@ class logChunk:
         blockKeyWordList = filter(lambda w: w[2] == BLOCK, self.keyWordList)
         for keyword in singleKeyWordList:
             if(keyword[1] != EXCLUDED):
-                emptyDict[self.outputKeyword(keyword) + " Adds"]=0
-                emptyDict[self.outputKeyword(keyword) + " Dels"]=0
+                emptyDict[self.outputKeyword(keyword) + " adds"]=0
+                emptyDict[self.outputKeyword(keyword) + " dels"]=0
         for keyword in blockKeyWordList:
             if(keyword[1] != EXCLUDED):
-                emptyDict[self.outputKeyword(keyword) + " Adds"]=0
-                emptyDict[self.outputKeyword(keyword) + " Dels"]=0
+                emptyDict[self.outputKeyword(keyword) + " adds"]=0
+                emptyDict[self.outputKeyword(keyword) + " dels"]=0
 
         return emptyDict
 
@@ -113,7 +113,7 @@ class logChunk:
             func.printPatch()
         print("===========================================")
 
-    
+
     def setLang(self, language = "C"):
         self.langSwitch = LanguageSwitcherFactory.LanguageSwitcherFactory.createLS(language)
         self.sT = ScopeTrackerFactory.ScopeTrackerFactory.createST(self.langSwitch, self.config_info)
@@ -162,7 +162,7 @@ class logChunk:
 
         #if(output[0] > self.total_add or output[1] > self.total_del):
             #raise CountException("Miscount between counts outside the function and the total within the functions.")
-        
+
         #Just set the total count to sum of function count.
         if(output[0] > self.total_add):
             self.total_add = output[0]
@@ -182,7 +182,7 @@ class logChunk:
 
     #Create an additional MOCK function to summarize all changes outside of functions.
     #If no such changes, return None
-    def createOutsideFuncSummary(self, keywordDictionary = {}): 
+    def createOutsideFuncSummary(self, keywordDictionary = {}):
         if(keywordDictionary == {}):
             keywordDictionary = self.getEmptyKeywordDict()
         (added, deleted) = self.getLineCountOutsideFunc()
@@ -195,9 +195,9 @@ class logChunk:
         if(self.initialized == False):
             self.parseText()
         return len(self.functions)
-        
+
     #string -> --
-    #store the next line of the chunk in the text    
+    #store the next line of the chunk in the text
     def addToText(self, line):
         if(line.endswith("\n")):
             self.text += line
@@ -207,19 +207,18 @@ class logChunk:
     #Remove any parts of the line that have structures marked as excluded
     def removeExcludedKeywords(self, line, keywords):
         excludedKeywords = [k for k in keywords if k[1] == EXCLUDED]
-        line = line.lower() #Make this case insensitive
         for eK in excludedKeywords:
             # print(eK)
             line = line.replace(eK[0], "")
         return line
-    
+
     #Determines if a line of text contains any keyword
     #Precondition - tested line has had all comments and strings removed.
     def containsKeyword(self, line, keywords):
         line = self.removeExcludedKeywords(line, keywords)
         includedKeywords = [k for k in keywords if k[1] == INCLUDED]
         for keyword in includedKeywords:
-            if(keyword in line.lower()):
+            if(keyword in line):
                 return True
 
         return False
@@ -243,9 +242,9 @@ class logChunk:
                 assert(False)
 
             if(lineType == ADD):
-                incrementDict(str(b) + " Adds", keywordDict, 1)
+                incrementDict(str(b) + " adds", keywordDict, 1)
             elif(lineType == REMOVE):
-                incrementDict(str(b) + " Dels", keywordDict, 1)
+                incrementDict(str(b) + " dels", keywordDict, 1)
 
         return keywordDict
 
@@ -255,13 +254,14 @@ class logChunk:
     def keywordMatch(self, keyword, line):
         if(keyword.startswith('\"') and keyword.endswith('\"')):
             slicedKeyword = keyword[1:-1]
-            exactMatch = "(^|\W+)" + re.escape(slicedKeyword)  + "(\W+|$)"
+            escapedKeyword = re.escape(slicedKeyword)
+            exactMatch = "(^|\W*)" + escapedKeyword + "(\W*|$)"
             return (slicedKeyword,re.search(exactMatch, line) != None)
         else:
-            return (keyword, keyword in line.lower())
+            return (keyword, keyword in line)
 
     #String, String, list of Strings, dictionary, String -> dictionary
-    #Modify the keyword dictionary for this line.  
+    #Modify the keyword dictionary for this line.
     def parseLineForKeywords(self, line, lineType, keywords, keywordDict, blockContext = []):
         assert(lineType == ADD or lineType == REMOVE) #How do we handle block statements where only internal part modified?
         line = self.removeExcludedKeywords(line, keywords)
@@ -282,9 +282,9 @@ class logChunk:
                 if(matched):
                     tmp = tmp.replace(k, "") #Then remove so we don't double count
                     if(lineType == ADD):
-                        incrementDict(str(k) + " Adds", keywordDict, 1)
+                        incrementDict(str(k) + " adds", keywordDict, 1)
                     elif(lineType == REMOVE):
-                        incrementDict(str(k) + " Dels", keywordDict, 1)
+                        incrementDict(str(k) + " dels", keywordDict, 1)
                     else: #I don't this case has been handled correctly for blocks.
                         print("Unmodified")
                         assert(0)
@@ -373,7 +373,7 @@ class logChunk:
     #To start, lets use a regex expression with "<return type> <name> (<0+ parameters>) {"
     #Also, we should handle template methods like: "template <class type> <return type> <name<type>>(<0+ parameters>) {""
     #Returns a string matching the function pattern or "" if no pattern match found.
-    def getFunctionPattern(self, line): 
+    def getFunctionPattern(self, line):
         #Remove potentially problematic structures
         temp = self.langSwitch.cleanFunctionLine(line)
 
@@ -397,20 +397,20 @@ class logChunk:
 
 
         return ""
-            
+
     def isFunction(self, line):
         return (self.getFunctionPattern(line) != "")
 
     #Determine if the given line is an assignment block using the {
     def isAssignment(self, line):
-        return re.search(assignPattern, line)        
-                
+        return re.search(assignPattern, line)
+
     #String -> String
     #Given a line of code from a diff statement, return the line with any
     #string literals removed.
     def removeStrings(self, line):
         return self.langSwitch.removeStrings(line)
-    
+
     #String, Boolean, String, String, String -> (String, String, Boolean, String, String)
     #Given a line of code from a diff statement, a marker if prior lines were a multiblock
     #comment, the marker for the type of line, a marker for the type of comment, and
@@ -565,7 +565,7 @@ class logChunk:
                 return [META, line]
             else:
                 return [OTHER, line]
-  
+
     #A Check to see if our regexes match class name
     def checkForClassName(self, searchString, classContext):
         if(self.langSwitch.isObjectOrientedLanguage()):
@@ -629,7 +629,7 @@ class logChunk:
             phase = LOOKFOREND
             #Count this line as an addition or deletion
             #this means either a { will be counted or part
-            #of the function name. 
+            #of the function name.
             if(lineType == REMOVE):
                 ftotal_del = 1
                 startFlag=1
@@ -637,18 +637,18 @@ class logChunk:
                 ftotal_add = 1
                 startFlag=1
 
-            #Remove the last of the function 
+            #Remove the last of the function
             line = self.langSwitch.clearFunctionRemnants(line)
         else: #There was a non-function scope increase.
             if(self.config_info.DEBUG):
                 print("Non function scope increase while searching for function name.")
-            
+
             #I think this will be handled by update scope and keywords, so we don't need to handle it here.
             #self.sT.increaseScope(line, line, lineType, scopeTracker.GENERIC)
 
             #Check for class context last here.
             if(not self.sT.changeScopeFirst()):
-                classContext = self.checkForClassName(functionName, classContext) 
+                classContext = self.checkForClassName(functionName, classContext)
 
             functionName = self.langSwitch.resetFunctionName(line) #Reset name and find next
 
@@ -684,7 +684,7 @@ class logChunk:
                 raise ValueError("Function Name Parse Error")
             #Add assertions from current function
             self.functions.append(funcToAdd)
-      
+
             #Reset asserts to current function
             functionName = ""
             shortFunctionName = ""
@@ -698,15 +698,15 @@ class logChunk:
             backTrack = False
             for keyword in singleKeyWordList:
                 if(keyword[1] != EXCLUDED):
-                    keywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                    keywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
             for keyword in blockKeyWordList:
                 #Hack to make run with the 'tryDependedCatch' keyword
                 if(not isinstance(keyword, list) or len(keyword) != KEYLISTSIZE):
                     continue
                 elif(keyword[1] != EXCLUDED):
-                    keywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                    keywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                    keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
         return (lineType, lineNum, phase, funcStart, funcEnd, functionName, shortFunctionName, ftotal_add, ftotal_del, foundBlock, singleKeyWordList, blockKeyWordList, keywordDictionary, backTrack)
 
@@ -886,20 +886,20 @@ class logChunk:
             temp = line
             if(scopeChanges != [DECREASE] and scopeChanges != [INCREASE, DECREASE] and scopeChanges != [scopeTracker.S_SIMUL]):
                 keywordDictionary = self.parseLineForKeywords(temp, lineType, singleKeyWordList, keywordDictionary)
-          
+
                 if(sT.getBlockContext(lineType) != [] or foundBlock != None):
                     bC = sT.getBlockContext(lineType)
                     if(self.config_info.DEBUG):
                         print("Current block context: " + str(bC))
-                    if(foundBlock != None): 
+                    if(foundBlock != None):
                         if(self.config_info.DEBUG):
                             print("No scope increase yet for block keyword. Adding to the list.")
                         #This means we have found block keyword, but not yet seen the scope increase
                         #This will always happen in python, but can happen in { languages if the {
                         #for the block is not on the same line as the keyword.
                         bC.append(foundBlock)
-                     
-                    #This line is double counting on a deacrease        
+
+                    #This line is double counting on a deacrease
                     keywordDictionary = self.parseLineForKeywords(temp, lineType, blockKeyWordList, keywordDictionary, bC)
 
         if(sT.changeScopeFirst() and reset):
@@ -907,7 +907,7 @@ class logChunk:
             blockKeywordType = ""
             foundBlock = None
 
-        return (foundBlock, blockKeywordLine, blockKeywordType, shortFunctionName, keywordDictionary, sT, False)      
+        return (foundBlock, blockKeywordLine, blockKeywordType, shortFunctionName, keywordDictionary, sT, False)
 
 
     #Main function to parse out the contents loaded into logChunk
@@ -949,20 +949,20 @@ class logChunk:
         #Initialize keywords (This is repeated three times -> make into a subfunction)
         for keyword in singleKeyWordList:
             if(keyword[1] != EXCLUDED):
-                keywordDictionary[self.outputKeyword(keyword)+ " Adds"]=0
-                keywordDictionary[self.outputKeyword(keyword)+ " Dels"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                keywordDictionary[self.outputKeyword(keyword)+ " adds"]=0
+                keywordDictionary[self.outputKeyword(keyword)+ " dels"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
         for keyword in blockKeyWordList:
             #Hack to make run with the 'tryDependentCatch' keyword
             if(not isinstance(keyword, list) or len(keyword) != KEYLISTSIZE):
                 continue
             elif(keyword[1] != EXCLUDED):
-                keywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                keywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Adds"]=0
-                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " Dels"]=0
+                keywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                keywordDictionary[self.outputKeyword(keyword) + " dels"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " adds"]=0
+                outsideFuncKeywordDictionary[self.outputKeyword(keyword) + " dels"]=0
 
         #----------------------------------Initialization----------------------------------#
 
@@ -970,18 +970,18 @@ class logChunk:
         for line in self.text.split("\n"):
             startFlag=0
             lineNum += 1
-                
+
             if(self.config_info.DEBUG):
                 try:
                     print("The real line: " + line)
                 except:
                     print("The real line: " + unicode(line, 'utf-8', errors='ignore'))
 
-            
+
             (lineType, line)= self.markLine(line)
             if(lineType == META):
                 continue
-            
+
             #Remove all strings from the line. (Get rid of weird cases of brackets
             #or comment values being excluded from the line.
             line = self.removeStrings(line)
@@ -990,7 +990,7 @@ class logChunk:
             line = line.rstrip() #Remove whitespace at the end
 
 
-            
+
             #Remove all comments from the line
             fChange = UNMARKED
             (line, lineType, commentFlag, commentType, functionName, fChange) = self.removeComments(line, commentFlag, lineType, commentType, functionName, phase)
@@ -1015,7 +1015,7 @@ class logChunk:
                         print("CONTINUATION LINE END")
                     elif(newStatus == languageSwitcher.CONTINUATION_START):
                         print("CONTINUATION LINE START")
-                    
+
                 self.sT.setContinuationFlag(newStatus)
             except InvalidCodeException:
                 #continue #If the code seems invalid, just skip the line.
@@ -1050,7 +1050,7 @@ class logChunk:
                     continue
                 except AssertionError:
                     return self.markChunkAsError()
-                
+
                 if(sResult == scopeTracker.S_YES): #Problem, in python we can see a function on a line with a scope decrease
                     try:
                         (phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del) = self.checkForFunctionName(phase, line, lineType, lineNum, functionName, classContext, funcStart, startFlag, ftotal_add, ftotal_del)
@@ -1159,7 +1159,7 @@ class logChunk:
 
         #Clear out the scope.
         self.sT.clearScope()
-        
+
         #Create a mock function for any changes lines and keyword (single or block)
         #that occured outside the functions in the block.
         outsideFunction = None
@@ -1167,19 +1167,19 @@ class logChunk:
             outsideFunction = self.createOutsideFuncSummary(outsideFuncKeywordDictionary)
         else:
             outsideFunction = self.createOutsideFuncSummary()
-            
+
         if(outsideFunction != None):
             self.functions.append(outsideFunction)
 
         if(self.config_info.DEBUG):
             print("Chunk End.")
-     
+
         return self
 
     def markChunkAsError(self):
         if(self.config_info.DEBUG or self.config_info.DEBUGLITE):
             print("Parse Error in this chunk.")
-                        
+
         #We don't trust the results of parsing this chunk, so return a general error statement.
         self.total_add = 0
         self.total_del = 0
