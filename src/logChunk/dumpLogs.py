@@ -33,7 +33,7 @@ class dumpLogs:
             dictStr= dictStr+", \""+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_") + \
                 "\" integer" #ToStr will add ' around the strings...
 
-        dictStr += ", total_adds integer, total_dels integer, warning_alert boolean)"
+        dictStr += ", total_adds integer, total_dels integer, total_ctxt integer, warning_alert boolean)"
 
         return dictStr
 
@@ -113,7 +113,7 @@ class dumpLogs:
 
         #sql_command = "INSERT INTO " + table + \
         #            "(project, sha, language, file_name, is_test, method_name, assertion_add, " + \
-        #            "assertion_del, total_add, total_del)" + \
+        #            "assertion_del, total_add, total_del, total_ctxt)" + \
         #            "VALUES (" + methodChange + ")"
 
         sql_command = "INSERT INTO " + table + titleString + " VALUES (" + methodChange + ")"

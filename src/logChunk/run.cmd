@@ -1,1 +1,1 @@
-./reset.sh;python gitcproc.py -d -pl -wl -p streamstudy ../util/stream_bugs_conf.ini   
+./reset.sh;sudo python gitcproc.py -d -pl -wl -p 123 ../util/log_bugs_config.ini 

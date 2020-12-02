@@ -51,9 +51,9 @@ def dumpLog(projPath, languages):
         #C and C++ and Python
         if(".c" in extSet or ".cpp" in extSet or ".py" in extSet): 
             #This will still fail on really big files.... (could we see what the biggest file is and use that?)
-            logCmd = "git log --date=short --no-merges -U99999 --function-context -- " + all_extn + " > " + LOG_FILE
+            logCmd = "git log --date=short --no-merges -U5 -- " + all_extn + " > " + LOG_FILE
         else: #Java
-            logCmd = "git log --date=short --no-merges -U1 --function-context -- " + all_extn + " > " + LOG_FILE
+            logCmd = "git log --date=short --no-merges -U5 -- " + all_extn + " > " + LOG_FILE
 
         #os.system("git stash save --keep-index; git pull")
         print(logCmd)

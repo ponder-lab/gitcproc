@@ -1,5 +1,5 @@
 #!/bin/bash
 set -ex
-psql -h localhost -U khatchad -d streams -c "drop table if exists change_summary"
-psql -h localhost -U khatchad -d streams -c "drop table if exists method_change_detail"
-rm -rf ../../evaluation/repos/StreamProjects
+psql -h localhost -U postgres -d logging -c "drop table if exists change_summary"
+psql -h localhost -U postgres -d logging -c "drop table if exists method_change_detail"
+sudo rm -rf ../../evaluation/repos/LogProjects

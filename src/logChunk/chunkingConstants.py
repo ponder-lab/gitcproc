@@ -17,6 +17,7 @@ ADD = 1
 REMOVE = 2
 OTHER = 3
 META = 4 #This is a meta information line.  We just want to ignore them.
+CTXT = 5 #This is a context line. We need to deal with them.
 
 #Scope Change directions
 INCREASE = 1

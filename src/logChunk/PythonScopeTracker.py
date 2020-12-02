@@ -119,7 +119,7 @@ class PythonScopeTracker(scopeTracker):
                 elif(lineType == REMOVE):
                     if(len(self.oldVerStack) < depth):
                         return S_YES
-                elif(lineType == OTHER): #Can these be different?
+                elif(lineType == OTHER or lineType == CTXT): #Can these be different?
                     oldDiff = len(self.oldVerStack) < depth
                     newDiff = len(self.newVerStack) < depth 
                     if(oldDiff != newDiff): #Scope is decreasing from the perspective of one stack and increasing from the other.
@@ -160,7 +160,7 @@ class PythonScopeTracker(scopeTracker):
         elif(lineType == REMOVE):
             if(len(self.oldVerStack) > depth):
                 return S_YES
-        elif(lineType == OTHER): #Can these be different?
+        elif(lineType == OTHER or lineType == CTXT): #Can these be different?
             oldDiff = len(self.oldVerStack) > depth
             newDiff = len(self.newVerStack) > depth
             if(self.config_info.DEBUG):
@@ -193,7 +193,7 @@ class PythonScopeTracker(scopeTracker):
             elif(lineType == REMOVE):
                 self.funcOldLine = 1
                 self.lastOldFuncContext = functionName + " " + line
-            elif(lineType == OTHER):
+            elif(lineType == OTHER or lineType == CTXT):
                 #TODO: Something about these flags may need to change in SIMUL?
                 #Actually possibly not, because this is only called on a S_NO
                 self.funcOldLine = 1
@@ -227,7 +227,7 @@ class PythonScopeTracker(scopeTracker):
             elif(lineType == REMOVE):
                 self.funcOldLine = 1
                 self.lastOldFuncContext = functionName
-            elif(lineType == OTHER):
+            elif(lineType == OTHER or lineType == CTXT):
                 #TODO:Something about these flags needs to be different for SIMUL I think...
                 self.funcOldLine = 1
                 self.funcNewLine = 1
@@ -251,7 +251,7 @@ class PythonScopeTracker(scopeTracker):
                 if(self.config_info.DEBUG):
                     print("Changing function Old Line to 0")
                 self.funcOldLine = 0
-            elif(lineType == OTHER):
+            elif(lineType == OTHER or lineType == CTXT):
                 if(self.config_info.DEBUG):
                     print("Changing function Old and New Line to 0")
                 #TODO:Something about these flags needs to be different for SIMUL I think...
@@ -267,7 +267,7 @@ class PythonScopeTracker(scopeTracker):
                 self.funcNewLine = -1
             elif(lineType == REMOVE):
                 self.funcOldLine = -1
-            elif(lineType == OTHER):
+            elif(lineType == OTHER or lineType == CTXT):
                 self.funcOldLine = -1
                 self.funcNewLine = -1
             else:
@@ -276,7 +276,7 @@ class PythonScopeTracker(scopeTracker):
             return ""
 
     def grabScopeLine(self, functionName, line, lineType):
-        if(lineType == ADD or lineType == OTHER):
+        if(lineType == ADD or lineType == OTHER or lineType == CTXT):
             if(self.funcNewLine == 1):
                 return(line)
             elif(self.funcNewLine == 0):
@@ -476,7 +476,7 @@ class PythonScopeTracker(scopeTracker):
             self.increaseNewIndent(stackValue, changeType, lineDiff)
         elif(lineType == REMOVE):
             self.increaseOldIndent(stackValue, changeType, lineDiff)
-        elif(lineType == OTHER): # Need to handle this differently in case of a SIMUL
+        elif(lineType == OTHER or lineType == CTXT): # Need to handle this differently in case of a SIMUL
             depth = self.indentDepth(line)
             if(isSimul):
                 self.simulScopeChange(stackValue, lineType, changeType, depth, lineDiff)
@@ -539,7 +539,7 @@ class PythonScopeTracker(scopeTracker):
             while(decreases > 0):
                 decreases -= 1
                 self.decreaseOldIndent()
-        elif(lineType == OTHER):
+        elif(lineType == OTHER or lineType == CTXT):
             if(isSimul):
                 #NOTE: Generic may not be correct here, observe behavior carefully.
                 self.simulScopeChange(line, lineType, GENERIC, depth, lineDiff)
@@ -558,19 +558,21 @@ class PythonScopeTracker(scopeTracker):
     def changeScopeFirst(self):
         return True
 
-    def adjustFunctionBorders(self, start, end, adds, deletes):
+    def adjustFunctionBorders(self, start, end, adds, deletes, ctxt):
         if(self.shiftStart):
             self.shiftStart = False
             if(self.startType == ADD):
-                return (start - 1, end, adds - 1 , deletes)
+                return (start - 1, end, adds - 1 , deletes, ctxt)
             elif(self.startType == REMOVE):
-                return (start - 1, end, adds , deletes - 1)
+                return (start - 1, end, adds , deletes - 1, ctxt)
             elif(self.startType == OTHER):
-                return (start - 1, end, adds, deletes)
+                return (start - 1, end, adds, deletes, ctxt)
+            elif(self.startType == CTXT):
+                return (start - 1, end, adds, deletes, ctxt - 1)
             else:
                 assert("Invalid line type.")
         else:
-            return (start, end, adds, deletes)
+            return (start, end, adds, deletes, ctxt)
 
     def getBlocksFromStack(self, stack):
         subList = []
@@ -583,7 +585,7 @@ class PythonScopeTracker(scopeTracker):
 
     #Return the surrounding block contexts or [] if not on the stack
     def getBlockContext(self, lineType):
-        if(lineType == ADD or lineType == OTHER):
+        if(lineType == ADD or lineType == OTHER or lineType == CTXT):
             return self.getBlocksFromStack(self.newVerStack)
         elif(lineType == REMOVE):
             return self.getBlocksFromStack(self.oldVerStack)
@@ -598,7 +600,7 @@ class PythonScopeTracker(scopeTracker):
         return ""
 
     def getFuncContext(self, lineType):
-        if(lineType == ADD or lineType == OTHER):
+        if(lineType == ADD or lineType == OTHER or lineType == CTXT):
             if(self.lastNewFuncContext != ""):
                 return self.lastNewFuncContext
             elif(self.lastOldFuncContext != ""):

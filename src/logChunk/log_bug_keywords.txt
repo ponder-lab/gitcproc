@@ -1,0 +1,14 @@
+"info(",included,single
+"config(",included,single
+"fine(",included,single
+"finer(",included,single
+"finest(",included,single
+"severe(",included,single
+"warning(",included,single
+"error(",included,single
+"warn(",included,single
+"debug(",included,single
+"trace(",included,single
+"log(",included,single
+"logp(",included,single
+"logrb(",included,single
