@@ -1,4 +1,5 @@
 # GitCProc
+
 GitCProc is a tool to extract changes to elements in code and associate them with their surrounding functions.
 It takes git diff logs as input and produces a table mapping the additions and deletions of the elements to
 a 4-tuple (project, sha, file, function/method) specifying the commit and location in the code of changed elements.
@@ -6,21 +7,20 @@ It also analyzes commit messages to estimate if the commits were bug fixing or n
 
 Currently, we have designed it to work with C/C++/Java/Python, but we have designed the framework to be extensible to other languages that make use of the concept of scope and source blocks.
 
-# Video Demo
+## Video Demo
 
-There is a video walkthrough of running the tool on a simple example at: https://youtu.be/shugzDjxj0w
-A shortened version can be found here: https://youtu.be/5sOUoMHuP9s
+There is a video walkthrough of running the tool on a simple example at: https://youtu.be/shugzDjxj0w. A shortened version can be found here: https://youtu.be/5sOUoMHuP9s.
 
-# Walkthrough
+## Walkthrough
 
 There is also a text version of the video walkthrough in the file "ExampleWalkthrough".
 
-# Docker
+## Docker
 
 A docker to handle the installation of these libraries and install postgres can be obtained
 with:
 
-```
+```bash
 docker pull caseycas/gitcproc-docker
 docker tag caseycas/gitcproc-docker gitcproc-docker
 docker run --name gitcproc-docker -e POSTGRES_PASSWORD=postgres -d gitcproc-docker
@@ -30,7 +30,7 @@ docker exec -it gitcproc-docker bash
 An example project and search can be run in the docker with (password prompt needs 'postgres'):
 This should take about a minute to run.
 
-```
+```bash
 cd src/logChunk/
 python gitcproc.py -d -pl -wl ../util/docker_conf.ini
 psql -U postgres
@@ -38,32 +38,32 @@ SELECT * FROM public.change_summary limit 5;
 SELECT * FROM public.method_change_detail limit 5;
 ```
 
-# Required Libraries
-GitCProc runs on python 2.7 and requires the following libraries:
--psycopg2
--nltk
--PyYAML
--GitPython
+## Required Libraries
 
-The python script src/logChunk/installDependencies.py will install these for you.  Be aware that psycopg2 requires postgres to be installed on your machine with necessary supporting libraries.  For Ubuntu, make sure you have libpq-dev installed.
+GitCProc runs on python 2.7 and requires the following libraries:
+
+- `psycopg2`
+- `nltk`
+- `PyYAML`
+- `GitPython`
+
+The python script `src/logChunk/installDependencies.py` will install these for you.  Be aware that psycopg2 requires postgres to be installed on your machine with necessary supporting libraries. For Ubuntu, make sure you have `libpq-dev` installed.
 
 If you wish to output your results to a database instead of a csv file, you will need a postgres server installed.
 
+## Running Instructions
 
-# Running Instructions
+The master script is located at `src/logChunk/gitcproc.py`, which depends on 3 input files to run.
 
-The master script is located at src/logChunk/gitcproc.py, which depends on 3 input files to run.
-
-1) First, if you want to download your projects from GitHub, you need a file to specify the list of projects
-from GitHub.  The file format is a list of full project names, e.g. caseycas/gitcproc, one on each line.
+1) First, if you want to download your projects from GitHub, you need a file to specify the list of projects from GitHub.  The file format is a list of full project names, e.g. caseycas/gitcproc, one on each line.
 
 2) The keywords file specifies what structures you wish to track.  It is formatted in the following manner:
-<br/>
+
+```txt
 [keyword_1], [INCLUDED/EXCLUDED], [SINGLE/BLOCK]
-<br/>
 ...
-<br/>
 [keyword_N],[INCLUDED/EXCLUDED], [SINGLE/BLOCK]
+```
 
 The first part is the keyword you wish to track.  For instance, if you are tracking assert statements, one 
 keyword of interest would be "assert", if you were tracking try-catch blocks, you might have "try" and "catch".
@@ -98,35 +98,32 @@ currently, we support C, C++, Java, and Python file types.
 
 [Flags]
 - Finally, this section contains several output and debugging options:
-	SEP: -> A string used to flatten out downloaded project names.  We recommend using ___ as we
+	- SEP: -> A string used to flatten out downloaded project names.  We recommend using ___ as we
 	have not observed GitHub projects using this in their names.  To illustrate what it does, if
 	this tool downloads caseycas/gitcproc with SEP: "___" the directory name it will be saved to
 	is caseycas___gitcproc.
-	DEBUG: -> True or False, this outputs extensive debug information.  It is highly recommended
+	- DEBUG: -> True or False, this outputs extensive debug information.  It is highly recommended
 	you set this to False when running on a real git project.
-	DEBUGLITE: -> True or False, this outputs very lightweight debug information.
-	DATABASE: -> True or False, this signals to write output to your Database.  The tool will
+	- DEBUGLITE: -> True or False, this outputs very lightweight debug information.
+	- DATABASE: -> True or False, this signals to write output to your Database.  The tool will
 	create the tables if they don't exist yet, but you must have postgres installed will an
 	available database and schema specified in [Database].  This option will prompt you for your
 	database password once the script gitcproc.py starts.
-    CSV: -> True or False, this signals to write to a CSV file. This option is recommended if you
-    want to miminize set up and test the tool out.
-	LOGTIME: -> True or False, this signals to write performance time information.  Currently it
-	measure time to parse the log and time to write out to the Database or CSV file.
+	- CSV: -> True or False, this signals to write to a CSV file. This option is recommended if you want to miminize set up and test the tool out.
+	- LOGTIME: -> True or False, this signals to write performance time information. Currently it measure time to parse the log and time to write out to the Database or CSV file.
 
 With these files created, to run the full process you can do something like:
-python gitcproc.py -d -wl -pl ../util/sample_conf.ini
+`python gitcproc.py -d -wl -pl ../util/sample_conf.ini`
 
 The config file is mandantory, and option -d runs the project download step,
 -wl creates the git log for downloaded projects, and -pl parses the logs and
 sends the output to your choosen format.
 
-
-# Running Tests
+## Running Tests
 This repository is set up to run travis CI on each commit at: https://travis-ci.org/caseycas/gitcproc
 
 The test scripts are as follows:
-```
+```bash
 src/logChunk/logChunkTestC.py
 src/logChunk/logChunkTestJAVA.py
 src/logChunk/logChunkTestPython
