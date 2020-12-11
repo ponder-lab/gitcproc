@@ -1,1 +1,1 @@
-./reset.sh;python gitcproc.py -d -pl -wl -p streamstudy ../util/stream_bugs_conf.ini   
+./reset.sh;python3 gitcproc.py -d -pl -wl -p func ../util/func_conf.ini   
