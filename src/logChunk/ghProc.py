@@ -25,13 +25,13 @@ def dumpLog(projPath):
     log_file = projPath + os.sep + LOG_FILE
 
     if os.path.isfile(log_file):
-        print("%s exists!!" % (log_file))
+        print(("%s exists!!" % (log_file)))
         return
 
     with Util.cd(projPath):
 
         logCmd = "git log --date=short -U1 -- \*.java > all_log.txt"
-        print logCmd
+        print(logCmd)
         os.system(logCmd)
 
 def processLog(projPath, c_info, password = ""):
@@ -40,10 +40,10 @@ def processLog(projPath, c_info, password = ""):
     log_file = projPath + os.sep + LOG_FILE
 
     if not os.path.isfile(log_file):
-        print("!! %s does not exist" % (log_file))
+        print(("!! %s does not exist" % (log_file)))
         return False
     else:
-        print("Going to process %s " % (log_file))
+        print(("Going to process %s " % (log_file)))
     
     ghDb = ghLogDb(log_file, c_info, password)
     return ghDb.processLog()
@@ -51,7 +51,7 @@ def processLog(projPath, c_info, password = ""):
 def checkProj(project):
 
     if not os.path.isdir(project):
-        print("!! %s does not exist" % (project))
+        print(("!! %s does not exist" % (project)))
         return False
 
     '''
@@ -67,10 +67,10 @@ def checkProj(project):
 '''main() funciton checks whether the arguments used while running the script are proper or not.'''
 
 def main():
-    print "Utility to process github logs"
+    print("Utility to process github logs")
 
     if len(sys.argv) < 3:
-        print "!!! Usage: python ghProc.py project config_file [password]"
+        print("!!! Usage: python ghProc.py project config_file [password]")
         sys.exit()
 
     project = str(sys.argv[1])
@@ -98,17 +98,17 @@ def main():
     else:
         parseFinish = processLog(project, config_info)
 
-    print "!! Done"
+    print("!! Done")
 
     if(config_info.LOGTIME):
         end = datetime.datetime.now()
-        print("Project: " + project)
-        print("Start time: " + str(start))
-        print("Parse Finish time:" + str(parseFinish))
-        print("End time: " + str(end))
-        print("Parse time: " + str(parseFinish - start))
-        print("Write time: " + str(end - parseFinish))
-        print("Total time: " + str(end-start))
+        print(("Project: " + project))
+        print(("Start time: " + str(start)))
+        print(("Parse Finish time:" + str(parseFinish)))
+        print(("End time: " + str(end)))
+        print(("Parse time: " + str(parseFinish - start)))
+        print(("Write time: " + str(end - parseFinish)))
+        print(("Total time: " + str(end-start)))
 
 
 if __name__ == '__main__':

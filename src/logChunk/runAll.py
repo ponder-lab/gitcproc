@@ -13,7 +13,7 @@ C_PATH = 'projects' + os.sep + 'top_C'
 def processProject(projPath):
   """thread worker function"""
 
-  print 'processProject : %s\n' % projPath 
+  print('processProject : %s\n' % projPath) 
   #print threading.current_thread().name
   ghProc.processLog(projPath)
   
@@ -48,17 +48,17 @@ def main(argv):
   try:
     opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
   except getopt.GetoptError:
-    print 'runAll.py -i <inputfile> -o <outputfile>'
+    print('runAll.py -i <inputfile> -o <outputfile>')
     sys.exit(2)
 
   if len(opts) == 0:
     #no argument is passed
-    print 'runAll.py -i <inputfile> -o <outputfile>'
+    print('runAll.py -i <inputfile> -o <outputfile>')
     sys.exit()
 
   for opt, arg in opts:
     if opt == '-h':
-      print 'runAll.py -i <inputfile> -o <outputfile>'
+      print('runAll.py -i <inputfile> -o <outputfile>')
       sys.exit()
 
     elif opt in ("-i", "--ifile"):
@@ -66,8 +66,8 @@ def main(argv):
     elif opt in ("-o", "--ofile"):
       outputfile = arg
 
-  print 'Input file is :', inputfile
-  print 'Output file is :', outputfile
+  print('Input file is :', inputfile)
+  print('Output file is :', outputfile)
 
   #populate arrays with c and c++ projects
   #cpp_projects = findAll(CPP_PATH)
@@ -95,13 +95,13 @@ def main(argv):
     #   project_path = ''
     sys.stdout = orig_stdout
     sys.stderr = orig_stderr
-    print project_path
+    print(project_path)
     
     #project_paths.append(project_path)
     project_name = ntpath.basename(project_path)
     sys.stdout = open(project_name + '.out', 'w')
     sys.stderr = open(project_name + '.err', 'w')
-    print project_path
+    print(project_path)
     ghProc.processLog(project_path)
 
   f.close()

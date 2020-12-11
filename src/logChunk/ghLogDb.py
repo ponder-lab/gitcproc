@@ -203,7 +203,7 @@ class Sha:
 
         retStr += self.printPatches()
 
-        print retStr.encode('ascii', 'ignore')
+        print(retStr.encode('ascii', 'ignore'))
 
     def dumpPatches(self,dumpLogDb):
         for p in self.patches:
@@ -270,9 +270,9 @@ class ghLogDb:
 
     def __str__(self):
 
-        print self.project_name
+        print(self.project_name)
         for s in shas:
-            print s
+            print(s)
 
     def isSha(self,line):
 
@@ -281,7 +281,7 @@ class ghLogDb:
         if line.startswith("commit") and is_sha:
             sha = is_sha.group(0)
             if (self.config_info.DEBUG or self.config_info.DEBUGLITE):
-                print("COMMIT: " + sha)
+                print(("COMMIT: " + sha))
         return sha
 
     def isAuthor(self,line,shaObj):
@@ -292,7 +292,7 @@ class ghLogDb:
             author = is_auth.group(0)
             shaObj.author = line.split(author)[0].split("Author:")[1]
             shaObj.author_email = author
-            print("Email: "  + shaObj.author_email)
+            print(("Email: "  + shaObj.author_email))
             shaObj.author = shaObj.author.strip()
 
             return True
@@ -381,8 +381,8 @@ class ghLogDb:
 
         elif line.startswith("@@ "):
             if(self.config_info.DEBUG):
-                print("New @@: " + line)
-                print("HEADER: " + curLogChunk.header)
+                print(("New @@: " + line))
+                print(("HEADER: " + curLogChunk.header))
             #Parse the previous chunk and store the results.
             if(curLogChunk.header != ""): #If there is an existing chunk to parse
                 self.processLastChunk(patchObj, curLogChunk)
@@ -444,7 +444,7 @@ class ghLogDb:
         project1 = os.path.split(self.log_file)[0]
         project1 = project1.rstrip(os.sep)
         self.project_name = os.path.basename(project1)
-        print("---------- %s ------------\n" % (self.project_name))
+        print(("---------- %s ------------\n" % (self.project_name)))
 
         if(self.config_info.DATABASE):
             dl = dumpLogs(self.dbPass, self.config_info)
@@ -551,8 +551,8 @@ class ghLogDb:
                             #If there is an existing chunk to parse, process it
                             if(curLogChunk.header != ""):
                                 if(self.config_info.DEBUG):
-                                    print("New diff with previous version: " + line)
-                                    print("HEADER: " + curLogChunk.header)
+                                    print(("New diff with previous version: " + line))
+                                    print(("HEADER: " + curLogChunk.header))
                                 self.processLastChunk(patchObj, curLogChunk)
 
                             #Reset the current chunk obj
@@ -575,8 +575,8 @@ class ghLogDb:
                         if(patchObj != None):
                             if(curLogChunk.header != ""): #If there is an existing chunk
                                 if (self.config_info.DEBUG):
-                                    print("New diff with no previous version: " + line)
-                                    print("HEADER: " + curLogChunk.header)
+                                    print(("New diff with no previous version: " + line))
+                                    print(("HEADER: " + curLogChunk.header))
                                 self.processLastChunk(patchObj, curLogChunk)
 
                                 if (self.config_info.DEBUG):
@@ -599,8 +599,8 @@ class ghLogDb:
         #Make sure to get the last patch in the file!
         if(curLogChunk.header != ""): #If there is an existing chunk to parse
             if(self.config_info.DEBUG):
-                print("Last Patch: " + line)
-                print("HEADER: " + curLogChunk.header)
+                print(("Last Patch: " + line))
+                print(("HEADER: " + curLogChunk.header))
             self.processLastChunk(patchObj, curLogChunk)
 
         #if shaObj != None:
@@ -648,7 +648,7 @@ class ghLogDb:
             fPtrPatchSummary.close()
 
         print("Sha's processed:")
-        print(len(self.shas))
+        print((len(self.shas)))
 
         return parseFinish
 
@@ -656,8 +656,8 @@ class ghLogDb:
 #---------test-----------#
 def test():
     if len(sys.argv) < 2:
-        print "!!! Pass a log file."
-        print "usage ./ghLogDb.py ccv_all_log.txt"
+        print("!!! Pass a log file.")
+        print("usage ./ghLogDb.py ccv_all_log.txt")
         sys.exit()
 
     log_file = sys.argv[1]

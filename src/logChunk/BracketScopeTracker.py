@@ -146,8 +146,8 @@ class BracketScopeTracker(scopeTracker):
             if(self.newVerStack != []):
                 removed = self.newVerStack.pop()
                 if(self.config_info.DEBUG):
-                    print("Removing: " + str(removed))
-                    print("Context: " + str(self.lastNewBlockContext))
+                    print(("Removing: " + str(removed)))
+                    print(("Context: " + str(self.lastNewBlockContext)))
                 if(removed[LABELINDEX] == FUNC):
                     self.lastNewFuncContext = self.getTopType(self.newVerStack, FUNC)
                 elif(removed[LABELINDEX] == SBLOCK):
@@ -163,8 +163,8 @@ class BracketScopeTracker(scopeTracker):
             if(self.oldVerStack != []):
                 removed = self.oldVerStack.pop()
                 if(self.config_info.DEBUG):
-                    print("Removing: " + str(removed))
-                    print("Context: " + str(self.lastOldBlockContext))
+                    print(("Removing: " + str(removed)))
+                    print(("Context: " + str(self.lastOldBlockContext)))
                 if(removed[LABELINDEX] == FUNC):
                     self.lastOldFuncContext = self.getTopType(self.oldVerStack, FUNC)
                 elif(removed[LABELINDEX] == SBLOCK):

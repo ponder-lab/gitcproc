@@ -17,7 +17,7 @@ University of Mons (Tom Mens)
 
 """Based on http://stackoverflow.com/questions/3085263/create-an-utf-8-csv-file-in-python"""
 
-import csv, codecs, cStringIO
+import csv, codecs, io
 
 class UTF8Recoder:
     """
@@ -29,7 +29,7 @@ class UTF8Recoder:
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         return self.reader.next().encode("utf-8")
 
 class UnicodeReader:
@@ -42,9 +42,9 @@ class UnicodeReader:
         f = UTF8Recoder(f, encoding)
         self.reader = csv.reader(f, delimiter=';', dialect=dialect, **kwds)
 
-    def next(self):
-        row = self.reader.next()
-        return [unicode(s, "utf-8") for s in row]
+    def __next__(self):
+        row = next(self.reader)
+        return [str(s, "utf-8") for s in row]
 
     def __iter__(self):
         return self
@@ -57,7 +57,7 @@ class UnicodeWriter:
 
     def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
         # Redirect output to a queue
-        self.queue = cStringIO.StringIO()
+        self.queue = io.StringIO()
         self.writer = csv.writer(self.queue, delimiter=';', dialect=dialect, **kwds)
         self.stream = f
         self.encoder = codecs.getincrementalencoder(encoding)()

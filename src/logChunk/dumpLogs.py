@@ -29,7 +29,7 @@ class dumpLogs:
 
         dictStr = "(project character varying(500), sha text, language character varying(500)," + \
             " file_name text, is_test boolean, method_name text"
-        for key, value in keywordDictionary.iteritems():
+        for key, value in keywordDictionary.items():
             dictStr= dictStr+", \""+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_") + \
                 "\" integer" #ToStr will add ' around the strings...
 
@@ -57,7 +57,7 @@ class dumpLogs:
 
         if response.lower().startswith('y'):
             for table in tables:
-                print("Deleting table %r \n" % table)
+                print(("Deleting table %r \n" % table))
                 sql_command = "DELETE FROM " + table
                 self.dbCon.insert(sql_command)
 

@@ -15,10 +15,10 @@ from logChunk import logChunk
 
 
 def main():
-  print "Utility to BULK process github logs"
+  print("Utility to BULK process github logs")
 
   if len(sys.argv) < 2:
-  	print "!!! Usage: python allRun.py top_project directory"
+  	print("!!! Usage: python allRun.py top_project directory")
   	sys.exit()
   if not os.path.isdir("../Results"):
             os.mkdir("../Results")
@@ -50,7 +50,7 @@ def main():
 
   for dir in os.listdir(rootdir):
     path= os.path.join(rootdir,dir)
-    print path
+    print(path)
     os.system('python ghProc.py %s'%path)
 
 if __name__ == '__main__':

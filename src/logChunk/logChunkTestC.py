@@ -22,12 +22,12 @@ class logChunktest(unittest.TestCase):
     def debugFunctions(self, funcList):
         print("===========================================")
         for func in funcList:
-            print(func.method)
-            print(func.start)
-            print(func.end)
-            print(func.total_add)
-            print(func.total_del)
-            print(func.keywordDictionary)
+            print((func.method))
+            print((func.start))
+            print((func.end))
+            print((func.total_add))
+            print((func.total_del))
+            print((func.keywordDictionary))
         print("===========================================")
 
 

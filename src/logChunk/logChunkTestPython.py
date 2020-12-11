@@ -22,12 +22,12 @@ class logChunktest(unittest.TestCase):
     def debugFunctions(self, funcList):
         print("===========================================")
         for func in funcList:
-            print(func.method)
-            print(func.start)
-            print(func.end)
-            print(func.total_add)
-            print(func.total_del)
-            print(func.keywordDictionary)
+            print((func.method))
+            print((func.start))
+            print((func.end))
+            print((func.total_add))
+            print((func.total_del))
+            print((func.keywordDictionary))
         print("===========================================")
 
 
@@ -90,7 +90,7 @@ class logChunktest(unittest.TestCase):
         self.assertTrue(self.testChunk.langSwitch.isContinuationLine(" /", NOT_CONTINUATION) == NOT_CONTINUATION)
 
     def test_keyword_parse(self):
-        print(self.testChunk.keywordMatch("\"print\"", "afo.write(data.print()"))
+        print((self.testChunk.keywordMatch("\"print\"", "afo.write(data.print()")))
         self.assertTrue(self.testChunk.keywordMatch("\"print\"", "afo.write(data.print()") == ("print", True))
 
 

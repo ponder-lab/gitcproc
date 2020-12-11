@@ -76,11 +76,11 @@ class PythonScopeTracker(scopeTracker):
         #Make sure there is no mixing of tabs and spaces
         if(self.config_info.DEBUG):
             try:
-                print("Indent Token: \"" + self.indentToken + "\"")
-                print("WhiteSpace: \"" + whiteSpace + "\"")
+                print(("Indent Token: \"" + self.indentToken + "\""))
+                print(("WhiteSpace: \"" + whiteSpace + "\""))
             except:
-                print("Indent Token: \"" + unicode(self.indentToken, 'utf-8', errors='ignore') + "\"")
-                print("WhiteSpace: \"" + unicode(whiteSpace, 'utf-8', errors='ignore') + "\"")
+                print(("Indent Token: \"" + str(self.indentToken, 'utf-8', errors='ignore') + "\""))
+                print(("WhiteSpace: \"" + str(whiteSpace, 'utf-8', errors='ignore') + "\""))
 
         assert(self.indentToken != "")
         if(self.indentToken == "\t"): 
@@ -137,8 +137,8 @@ class PythonScopeTracker(scopeTracker):
     def isScopeDecrease(self, line, lineType):
         if(self.config_info.DEBUG):
             print("IN isScopeDecrease")
-            print("Indent Token: \"" + self.indentToken + "\"")
-            print("Line: \"" + line + "\"")
+            print(("Indent Token: \"" + self.indentToken + "\""))
+            print(("Line: \"" + line + "\""))
         if(self.indentToken == ""): #If Scope is decreasing, if must have increased at some point
             return S_NO
         #We need to ignore blank lines for scope Decreases?
@@ -151,9 +151,9 @@ class PythonScopeTracker(scopeTracker):
         indent = re.match(r"\s*", line).group() 
         depth = self.indentDepth(indent)
         if(self.config_info.DEBUG):
-            print("Depth:" + str(depth))
-            print("Line: \"" + line + "\"")
-            print("Old Stack: " + str(self.oldVerStack))
+            print(("Depth:" + str(depth)))
+            print(("Line: \"" + line + "\""))
+            print(("Old Stack: " + str(self.oldVerStack)))
         if(lineType == ADD):
             if(len(self.newVerStack) > depth):
                 return S_YES
@@ -164,8 +164,8 @@ class PythonScopeTracker(scopeTracker):
             oldDiff = len(self.oldVerStack) > depth
             newDiff = len(self.newVerStack) > depth
             if(self.config_info.DEBUG):
-                print("Old Diff:" + str(oldDiff))
-                print("New Diff:" + str(newDiff))
+                print(("Old Diff:" + str(oldDiff)))
+                print(("New Diff:" + str(newDiff)))
             if(oldDiff != newDiff): #Scope is decreasing from the perspective of one stack and increasing from the other.
                 return S_SIMUL
             elif(oldDiff == True):
@@ -213,10 +213,10 @@ class PythonScopeTracker(scopeTracker):
         #increase counterpart is likely also not behaving correctly.
         if(self.config_info.DEBUG):
             print("Handle Ending")
-            print("FunctionName: " + functionName)
-            print("Line: " + line)
-            print("Old Context:" + self.lastOldFuncContext)
-            print("New Context:" + self.lastNewFuncContext)
+            print(("FunctionName: " + functionName))
+            print(("Line: " + line))
+            print(("Old Context:" + self.lastOldFuncContext))
+            print(("New Context:" + self.lastNewFuncContext))
 
         if(funcIdentFunc(functionName) != ""): #This is the line containing the followup
             if(self.config_info.DEBUG):
@@ -309,15 +309,15 @@ class PythonScopeTracker(scopeTracker):
             #if(not ((oldChange < 0 and newChange > 0) or (oldChange > 0 and newChange < 0))):
             if(self.config_info.DEBUG):
                 print("SIMUL SCOPE CHANGE:")
-                print("Line: " + stackValue)
-                print("Depth: " + str(depth))
-                print("OldChange: " + str(oldChange))
-                print("NewChange: " + str(newChange))
-                print("Func Old Line: " + str(self.funcOldLine))
-                print("Func New Line: " + str(self.funcNewLine))
-                print("Block Old Line: " + str(self.blockOldLine))
-                print("Block New Line: " + str(self.blockNewLine))
-                print("Arguments: " + " ".join([str(stackValue), str(lineType), str(changeType), str(depth), str(lineDiff)]))
+                print(("Line: " + stackValue))
+                print(("Depth: " + str(depth)))
+                print(("OldChange: " + str(oldChange)))
+                print(("NewChange: " + str(newChange)))
+                print(("Func Old Line: " + str(self.funcOldLine)))
+                print(("Func New Line: " + str(self.funcNewLine)))
+                print(("Block Old Line: " + str(self.blockOldLine)))
+                print(("Block New Line: " + str(self.blockNewLine)))
+                print(("Arguments: " + " ".join([str(stackValue), str(lineType), str(changeType), str(depth), str(lineDiff)])))
                 print("STACKVALUES")
                 self.printScope()
             #    #assert(0)
@@ -355,9 +355,9 @@ class PythonScopeTracker(scopeTracker):
     def increaseNewIndent(self, stackValue, changeType, lineDiff):
         if(self.config_info.DEBUG):
             print("New Indent Increase")
-            print("Adding: " + str(stackValue))
-            print("Type: " + str(changeType))
-            print("Stack: " + str(self.newVerStack))
+            print(("Adding: " + str(stackValue)))
+            print(("Type: " + str(changeType)))
+            print(("Stack: " + str(self.newVerStack)))
 
         if(changeType == GENERIC):
             if(self.funcNewLine != 1 and self.blockNewLine == 0):
@@ -401,20 +401,20 @@ class PythonScopeTracker(scopeTracker):
             assert("Not a valid change type.")
 
         if(self.config_info.DEBUG):
-            print("Stack (After): " + str(self.newVerStack))
+            print(("Stack (After): " + str(self.newVerStack)))
 
     def increaseOldIndent(self, stackValue, changeType, lineDiff):
         if(self.config_info.DEBUG):
             print("Old Indent Increase")
-            print("Adding: " + str(stackValue))
-            print("Type: " + str(changeType))
-            print("Stack: " + str(self.oldVerStack))
+            print(("Adding: " + str(stackValue)))
+            print(("Type: " + str(changeType)))
+            print(("Stack: " + str(self.oldVerStack)))
 
         if(changeType == GENERIC):
             if(self.config_info.DEBUG):
                 print("GENERIC!")
-                print("Func Old Line: " + str(self.funcOldLine))
-                print("Block Old Line: " + str(self.blockOldLine))
+                print(("Func Old Line: " + str(self.funcOldLine)))
+                print(("Block Old Line: " + str(self.blockOldLine)))
             if(self.funcOldLine != 1 and self.blockOldLine == 0):
                 self.oldVerStack.append((self.indentToken, GENERIC)) #Should be able to increase only 1 level at a time?
             elif(self.blockOldLine == 1):
@@ -435,7 +435,7 @@ class PythonScopeTracker(scopeTracker):
                 self.lastOldFuncContext = stackValue
                 self.funcOldLine = 1
                 if(self.config_info.DEBUG):
-                    print("Func Old Line: " + str(self.funcOldLine))
+                    print(("Func Old Line: " + str(self.funcOldLine)))
             elif(self.funcOldLine == 1): #Indent after a func line
                 self.oldVerStack.append((self.lastOldFuncContext, FUNC))
                 self.funcOldLine = -1  
@@ -460,7 +460,7 @@ class PythonScopeTracker(scopeTracker):
             assert("Not a valid change type.")
 
         if(self.config_info.DEBUG):
-            print("Stack (After): " + str(self.oldVerStack))
+            print(("Stack (After): " + str(self.oldVerStack)))
 
     #string, [ADD|REMOVE|OTHER], [GENERIC|FUNC|BLOCK] -> --
     #Increase the depth of our tracker and add in function or block contexts if they have been discovered.
@@ -468,9 +468,9 @@ class PythonScopeTracker(scopeTracker):
     def increaseScope(self, stackValue, line, lineType, changeType, lineDiff = -1, isSimul = False):
         if(self.config_info.DEBUG): 
             try:
-                print("Scope Increasing Line: " + line)
+                print(("Scope Increasing Line: " + line))
             except:
-                print("Scope Increasing Line: " + unicode(line, 'utf-8', errors='ignore'))
+                print(("Scope Increasing Line: " + str(line, 'utf-8', errors='ignore')))
 
         if(lineType == ADD):
             self.increaseNewIndent(stackValue, changeType, lineDiff)
@@ -496,9 +496,9 @@ class PythonScopeTracker(scopeTracker):
         if(self.newVerStack != []):
             removed = self.newVerStack.pop()
             if(self.config_info.DEBUG):
-                print("Removing: " + str(removed))
+                print(("Removing: " + str(removed)))
                 #print("Context: " + str(self.lastNewBlockContext))
-                print("Stack: " + str(self.newVerStack))
+                print(("Stack: " + str(self.newVerStack)))
             if(removed[LABELINDEX] == FUNC):
                 self.lastNewFuncContext = self.getTopType(self.newVerStack, FUNC)
             #elif(removed[LABELINDEX] == SBLOCK):
@@ -512,9 +512,9 @@ class PythonScopeTracker(scopeTracker):
         if(self.oldVerStack != []):
             removed = self.oldVerStack.pop()
             if(self.config_info.DEBUG):
-                print("Removing: " + str(removed))
+                print(("Removing: " + str(removed)))
                 #print("Context: " + str(self.lastOldBlockContext))
-                print("Stack: " + str(self.oldVerStack))
+                print(("Stack: " + str(self.oldVerStack)))
             if(removed[LABELINDEX] == FUNC):
                 self.lastOldFuncContext = self.getTopType(self.oldVerStack, FUNC)
             #elif(removed[LABELINDEX] == SBLOCK):
@@ -631,17 +631,17 @@ class PythonScopeTracker(scopeTracker):
     def printScope(self):
         print("------------------<Scope Obj>------------------")
         print("Language:")
-        print(self.language)
+        print((self.language))
         print("Old Stack:")
-        print(self.oldVerStack)
+        print((self.oldVerStack))
         print("Old Func Cache:")
-        print(self.lastOldFuncContext)
+        print((self.lastOldFuncContext))
         print("Old Block Keyword:")
-        print(self.oldBlockKeyword)
+        print((self.oldBlockKeyword))
         print("New Stack:")
-        print(self.newVerStack)
+        print((self.newVerStack))
         print("New Func Cache:")
-        print(self.lastNewFuncContext)
+        print((self.lastNewFuncContext))
         print("New Block Keyword:")
-        print(self.newBlockKeyword)
+        print((self.newBlockKeyword))
         print("------------------<Scope Obj>------------------")

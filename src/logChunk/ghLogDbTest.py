@@ -44,7 +44,7 @@ class ghLogDbTest(unittest.TestCase):
         for patch in patches:
             self.assertTrue(patch.language == "c")
             self.assertTrue(patch.is_test == False)
-            print(patch.file_name)
+            print((patch.file_name))
 
         self.assertTrue(patches[0].file_name == "bin/cuda/cwc-verify.c")
         methods = patches[0].methods
@@ -94,7 +94,7 @@ class ghLogDbTest(unittest.TestCase):
         for patch in patches:
             self.assertTrue(patch.language == "c")
             self.assertTrue(patch.is_test == False)
-            print(patch.file_name)
+            print((patch.file_name))
 
         self.assertTrue(patches[0].file_name == "bin/cuda/cwc-bench.c")
         methods = patches[0].methods
@@ -133,7 +133,7 @@ class ghLogDbTest(unittest.TestCase):
         for patch in patches:
             self.assertTrue(patch.language == "c")
             self.assertTrue(patch.is_test == False)
-            print(patch.file_name)
+            print((patch.file_name))
 
         self.assertTrue(patches[0].file_name == "lib/ccv_convnet.c")
         methods = patches[0].methods
@@ -163,7 +163,7 @@ class ghLogDbTest(unittest.TestCase):
         for patch in patches:
             self.assertTrue(patch.language == "c")
             self.assertTrue(patch.is_test == False)
-            print(patch.file_name)
+            print((patch.file_name))
 
         methods = patches[0].methods
         self.assertTrue(len(methods) == 1)
@@ -211,7 +211,7 @@ class ghLogDbTest(unittest.TestCase):
         for patch in patches:
             self.assertTrue(patch.language == "cpp")
             self.assertTrue(patch.is_test == False)
-            print(patch.file_name)
+            print((patch.file_name))
 
         methods = patches[0].methods
         self.assertTrue(len(methods) == 8)
@@ -340,7 +340,7 @@ class ghLogDbTest(unittest.TestCase):
         for patch in patches:
             self.assertTrue(patch.language == "java")
             self.assertTrue(patch.is_test == False)
-            print(patch.file_name)
+            print((patch.file_name))
 
         self.assertTrue(patches[0].file_name == "app/src/main/java/com/github/mobile/accounts/AccountUtils.java")
         methods = patches[0].methods

@@ -49,7 +49,7 @@ class cd:
 def create_dir(path):
 
     try:
-        print path
+        print(path)
         os.makedirs(path)
     
     except OSError as exception:
@@ -69,7 +69,7 @@ def copy_dir(src, dst):
 def cleanup(path):
 
     if os.path.isdir(path):
-        print "!!! Cleaning up " , path
+        print("!!! Cleaning up " , path)
         shutil.rmtree(path)
 
         # var = raw_input("Path %s exists; do you want to delete it?" % (path))
@@ -79,7 +79,7 @@ def cleanup(path):
         #   shutil.rmtree(path)
         
     elif os.path.isfile(path):
-        print "!!! Removing " , path
+        print("!!! Removing " , path)
         os.remove(path)
 
 all_extension = ['.c', '.cc', '.cpp', '.c++', '.cp', '.cxx', '.h', '.ic', \

@@ -21,7 +21,7 @@ pattern="\w*Exception"
 def extractException(projPath):
     log_file = projPath + os.sep + LOG_FILE
     if not os.path.isfile(log_file):
-        print("!! %s does not exist" % (log_file))
+        print(("!! %s does not exist" % (log_file)))
         return []
     #else:
         # print("Going to process %s " % (log_file))
@@ -34,10 +34,10 @@ def extractException(projPath):
 
 
 def main():
-  print "Utility to BULK process github logs"
+  print("Utility to BULK process github logs")
 
   if len(sys.argv) < 2:
-  	print "!!! Usage: python ExceptionExtractor.py top_project directory"
+  	print("!!! Usage: python ExceptionExtractor.py top_project directory")
   	sys.exit()
   if not os.path.isdir("../Results"):
             os.mkdir("../Results")

@@ -6,7 +6,7 @@ from Config import Config
 
 class DatabaseCon:
     def __init__(self, db, dbUser, dbHost, dbPort, passwrd):
-        print "Going to connect to database %s in server %s, for user %s" % (db, dbHost, dbUser)
+        print("Going to connect to database %s in server %s, for user %s" % (db, dbHost, dbUser))
         #passwrd = raw_input("Please enter password..\n")
         self.conn = psycopg2.connect(database=db, user=dbUser, host=dbHost, port=dbPort,password=passwrd)
 
@@ -23,12 +23,12 @@ class DatabaseCon:
         try:
             cur.execute(sql_command)
         except psycopg2.IntegrityError:
-            print "Copy already exists."
+            print("Copy already exists.")
             print(sql_command)
             self.conn.rollback()
             return
         except:
-            print "!!! Error"
+            print("!!! Error")
             print(sql_command)
         #  #raise
             return
@@ -42,7 +42,7 @@ class DatabaseCon:
         try:
             cur.execute(sql_command)
         except:
-            print "Table Creation Error"
+            print("Table Creation Error")
             print(sql_command)
             raise
 
@@ -61,7 +61,7 @@ class DatabaseCon:
     def test(config_file):
         cfg = Config(config_file)
         db_config = cfg.ConfigSectionMap("Database")
-        print "Database configuration = %r\n", db_config
+        print("Database configuration = %r\n", db_config)
 
         dbCon = DatabaseCon(db_config['database'], db_config['user'], db_config['host'], db_config['port'], db_config['password'])
 
@@ -71,13 +71,13 @@ class DatabaseCon:
         rows = dbCon.execute(sql_command)
 
         for r in rows:
-            print r
+            print(r)
 
 
 if __name__ == '__main__':
 
         if len(sys.argv) < 2:
-            print "!! please give a confg file"
+            print("!! please give a confg file")
             sys.exit()
 
         test(sys.argv[1])

@@ -44,7 +44,7 @@ if(args.download):
 
     #Check that the repo list file exists
     if(not os.path.isfile(repo_config['repo_url_file'])):
-        print(repo_config['repo_url_file'] + ", the file containing the list of projects to download,")
+        print((repo_config['repo_url_file'] + ", the file containing the list of projects to download,"))
         print("cannot be found.  Make sure your path and name are correct.")
 
     #Create the output directory if it doesn't exist yet.
@@ -56,12 +56,12 @@ if(args.download):
 
 if(args.write_log):
     #Also should include logging for time...
-    subprocess.call(["python", "getGitLog.py", repo_config['repo_locations'], config_file])
+    subprocess.call(["python3", "getGitLog.py", repo_config['repo_locations'], config_file])
 
 if(args.parse_log):
     project_set = set()
     if(not os.path.isfile(repo_config['repo_url_file'])):
-        print(repo_config['repo_url_file'] + ", the file containing the list of projects to download,")
+        print((repo_config['repo_url_file'] + ", the file containing the list of projects to download,"))
         print("cannot be found.  Make sure your path and name are correct.")
     else:
         try:
@@ -77,7 +77,7 @@ if(args.parse_log):
     for next_project, name in dirs_and_names:
         if(len(project_set) != 0 and name not in project_set):
             continue
-        #subprocess.call(["python", "ghProc.py", next_project, config_file, password])
+        #subprocess.call(["python3", "ghProc.py", next_project, config_file, password])
         subprocess.call(["nohup", "sh", "run.sh", next_project, name, config_file, password])
 
 

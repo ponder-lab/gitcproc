@@ -44,7 +44,7 @@ class LanguageSwitcherFactory:
         elif(language.lower() == "python" or language.lower() in LanguageSwitcherFactory.extMap["Python"]["extensions"]):
             return PythonLanguageSwitcher.PythonLanguageSwitcher(set(LanguageSwitcherFactory.extMap["Python"]["extensions"]))
         else:
-            print(LanguageSwitcherFactory.extMap["C"]["extensions"])
+            print((LanguageSwitcherFactory.extMap["C"]["extensions"]))
             raise UnsupportedLanguageException(language + " not yet supported.")
 
     @staticmethod

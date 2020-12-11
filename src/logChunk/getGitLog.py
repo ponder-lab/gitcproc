@@ -77,7 +77,7 @@ def processLog(projPath):
     log_file = projPath + os.sep + LOG_FILE
 
     if not os.path.isfile(log_file):
-        print("%s does not exist!!" % (log_file))
+        print(("%s does not exist!!" % (log_file)))
         return
 
     ghDb = ghLogDb(log_file)
@@ -111,16 +111,16 @@ def getGitLog(project, languages, config_info):
             continue
         proj_path = os.path.join(project, p)
         if(config_info.DEBUGLITE or config_info.DEBUG):
-            print proj_path
+            print(proj_path)
         dumpLog(proj_path, languages)
         #processLog(proj_path)
 
 
 def main():
-    print "==== Utility to process Github logs ==="
+    print("==== Utility to process Github logs ===")
 
     if len(sys.argv) < 3:
-        print "!!! Usage: python ghProc.py project config_file"
+        print("!!! Usage: python ghProc.py project config_file")
         sys.exit()
 
     project = sys.argv[1]
@@ -140,7 +140,7 @@ def main():
 
     getGitLog(project, langs, config_info)
     #processLog(project)
-    print "Done!!"
+    print("Done!!")
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ def toStr(text):
         temp_text = temp_text.strip()
         return "\'" + str(temp_text) + "\'"
     except:
-        print type(text)
+        print(type(text))
         return "\'NA\'"
 
 
@@ -37,7 +37,7 @@ class PatchMethod:
 
     def dumpMethod(self):
         dictStr= toStr(self.method)
-        for key, value in self.keywordDictionary.iteritems():
+        for key, value in self.keywordDictionary.items():
             dictStr= dictStr+","+ toStr(value)
 
         dictStr += "," + toStr(self.total_add) + "," + toStr(self.total_del) + "," + toStr(self.warning)
@@ -47,7 +47,7 @@ class PatchMethod:
     #Get the Header string for inserting into a database.
     def getTitleString(self):
         dictStr= "(project, sha, language, file_name, is_test, method_name"
-        for key, value in self.keywordDictionary.iteritems():
+        for key, value in self.keywordDictionary.items():
             dictStr= dictStr+",\""+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_") + "\"" #ToStr will add ' around the strings...
 
         dictStr += ",total_adds,total_dels,warning_alert)"
@@ -62,7 +62,7 @@ class PatchMethod:
         '''
         dictStr = "(project character varying(500), sha text, language character varying(500)," + \
             " file_name text, is_test boolean, method_name text"
-        for key, value in self.keywordDictionary.iteritems():
+        for key, value in self.keywordDictionary.items():
             dictStr= dictStr+", "+ str(key).replace(" ", "_").replace("(", "_").replace(")", "_") + \
                 "integer" #ToStr will add ' around the strings...
 

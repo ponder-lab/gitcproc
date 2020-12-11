@@ -77,7 +77,7 @@ class logChunk:
                     next = l
                     lst.append(next)
                 else:
-                    print("Invalid line in keyword config file: " + str(l))
+                    print(("Invalid line in keyword config file: " + str(l)))
                     print("Skipping...")
 
         return lst
@@ -90,8 +90,8 @@ class logChunk:
         if(self.keyWordList == []):
             self.keyWordList = self.readKeywords([])
 
-        singleKeyWordList = filter(lambda w : w[2] == SINGLE, self.keyWordList)
-        blockKeyWordList = filter(lambda w: w[2] == BLOCK, self.keyWordList)
+        singleKeyWordList = [w for w in self.keyWordList if w[2] == SINGLE]
+        blockKeyWordList = [w for w in self.keyWordList if w[2] == BLOCK]
         for keyword in singleKeyWordList:
             if(keyword[1] != EXCLUDED):
                 emptyDict[self.outputKeyword(keyword) + " adds"]=0
@@ -105,9 +105,9 @@ class logChunk:
 
     def printLogChunk(self):
         print("===========================================")
-        print("Total add: " + str(self.total_add))
-        print("Total del: " + str(self.total_del))
-        print("Header: " + str(self.header))
+        print(("Total add: " + str(self.total_add)))
+        print(("Total del: " + str(self.total_del)))
+        print(("Header: " + str(self.header)))
         print("Functions:")
         for func in self.functions:
             func.printPatch()
@@ -155,10 +155,10 @@ class logChunk:
         #This sum of the real function contents shouldn't be greater than
         #the total lines added and deleted in the diff.
         if(self.config_info.DEBUG):
-            print("SUM of func adds: " + str(output[0]))
-            print("SUM of func dels: " + str(output[1]))
-            print("Total adds: " + str(self.total_add))
-            print("Total dels: " + str(self.total_del))
+            print(("SUM of func adds: " + str(output[0])))
+            print(("SUM of func dels: " + str(output[1])))
+            print(("Total adds: " + str(self.total_add)))
+            print(("Total dels: " + str(self.total_del)))
 
         #if(output[0] > self.total_add or output[1] > self.total_del):
             #raise CountException("Miscount between counts outside the function and the total within the functions.")
@@ -270,9 +270,9 @@ class logChunk:
         keywords = sorted(keywords, key=lambda tup: -len(tup[0]))
         if(self.config_info.DEBUG):
             try:
-                print("LINE TO PARSE FOR KEYWORD:" + line)
+                print(("LINE TO PARSE FOR KEYWORD:" + line))
             except:
-                print("LINE TO PARSE FOR KEYWORD:" + unicode(line, 'utf-8', errors='ignore'))
+                print(("LINE TO PARSE FOR KEYWORD:" + str(line, 'utf-8', errors='ignore')))
         includedKeywords = [k for k in keywords if k[1] == INCLUDED]
         tmp = line
 
@@ -292,7 +292,7 @@ class logChunk:
         elif(len(blockContext) != 0):
             #Sum over all block keywords
             if(self.config_info.DEBUG):
-                print("Updating Block Dictionaries:" + str(blockContext))
+                print(("Updating Block Dictionaries:" + str(blockContext)))
             keywordDict = self.incrementBlockContext(keywordDict, lineType, includedKeywords, blockContext)
 
         return keywordDict
@@ -352,11 +352,11 @@ class logChunk:
         constructPatt = self.langSwitch.getConstructorOrDestructorRegex(classContext)
 
         if(self.config_info.DEBUG):
-            print("Class context: " + classContext)
+            print(("Class context: " + classContext))
             try:
-                print("Checking if a constructor/destructor: " + temp)
+                print(("Checking if a constructor/destructor: " + temp))
             except:
-                print("Checking if a constructor/destructor: " + unicode(temp, 'utf-8', errors='ignore'))
+                print(("Checking if a constructor/destructor: " + str(temp, 'utf-8', errors='ignore')))
 
         return re.search(constructPatt, temp,flags=re.IGNORECASE)
 
@@ -379,20 +379,20 @@ class logChunk:
 
         if(self.config_info.DEBUG):
             try:
-                print("Checking if function: \'" + temp + "\'")
+                print(("Checking if function: \'" + temp + "\'"))
             except:
-                print("Checking if function: \'" + unicode(temp, 'utf-8', errors='ignore') + "\'")
+                print(("Checking if function: \'" + str(temp, 'utf-8', errors='ignore') + "\'"))
 
         #Select patterns for our language and check against them
         funcPatterns = self.langSwitch.getFunctionRegexes()
         if(self.config_info.DEBUG):
-            print("Checking " + str(len(funcPatterns)) + " patterns.")
+            print(("Checking " + str(len(funcPatterns)) + " patterns."))
 
         for p in funcPatterns:
             result = re.search(p, temp)
             if(result != None):
                 if(self.config_info.DEBUG):
-                    print("Found match with pattern: " + p)
+                    print(("Found match with pattern: " + p))
                 return result.group(0)
 
 
@@ -573,9 +573,9 @@ class logChunk:
                 if(className != ""):
                     if(self.config_info.DEBUG):
                         try:
-                            print("Class:" + className)
+                            print(("Class:" + className))
                         except:
-                            print("Class:" + unicode(className, 'utf-8', errors='ignore'))
+                            print(("Class:" + str(className, 'utf-8', errors='ignore')))
                     classContext.append(self.extractClassName(className)) #Push onto the class list
 
         return classContext
@@ -604,7 +604,7 @@ class logChunk:
 
         shortFunctionName = self.getFunctionPattern(functionName)
         if(self.config_info.DEBUG):
-            print("Pattern: " + shortFunctionName)
+            print(("Pattern: " + shortFunctionName))
 
         if(shortFunctionName != ""):
             isFunction = True
@@ -618,9 +618,9 @@ class logChunk:
         if(isFunction): #Skip things are aren't functions
             if(self.config_info.DEBUG):
                 try:
-                     print("Function: " + shortFunctionName)
+                     print(("Function: " + shortFunctionName))
                 except:
-                     print("Function: " + unicode(shortFunctionName, 'utf-8', errors='ignore'))
+                     print(("Function: " + str(shortFunctionName, 'utf-8', errors='ignore')))
 
             #Must update to deal with potential changes.
             self.sT.increaseScope(self.sT.grabScopeLine(shortFunctionName, line, lineType), line, lineType, scopeTracker.FUNC)
@@ -668,12 +668,12 @@ class logChunk:
 
             if(self.config_info.DEBUG):
                 print("OLD")
-                print(self.sT.oldVerStack)
+                print((self.sT.oldVerStack))
                 print("NEW")
-                print(self.sT.newVerStack)
-                print("Line Type: " + str(lineType))
-                print("Function Name: " + str(shortFunctionName))
-                print(str(funcStart) + " : " + str(funcEnd))
+                print((self.sT.newVerStack))
+                print(("Line Type: " + str(lineType)))
+                print(("Function Name: " + str(shortFunctionName)))
+                print((str(funcStart) + " : " + str(funcEnd)))
 
             #Add this function to our list and reset the trackers.
             #We use shortFunctionName, which is the string that matched our expected
@@ -746,7 +746,7 @@ class logChunk:
                         if(foundBlock != None): #If we have an existing keyword match from before
                             if(blockKeywordLine == lineNum - 1):
                                 if(self.config_info.DEBUG):
-                                    print("Block start found (0): " + foundBlock)
+                                    print(("Block start found (0): " + foundBlock))
                                 sT.increaseScope(foundBlock, line, blockKeywordType, scopeTracker.SBLOCK, 1)
                             else: #Ignore scope increases too far away from the block keyword
                                 sT.increaseScope(line, line, blockKeywordType, scopeTracker.GENERIC)
@@ -758,7 +758,7 @@ class logChunk:
                             foundBlock=self.getBlockPattern(line,blockKeyWordList)
                             if(foundBlock!=None):
                                 if(self.config_info.DEBUG):
-                                    print("Block start found (1): " + foundBlock)
+                                    print(("Block start found (1): " + foundBlock))
                                 sT.increaseScope(foundBlock, line, lineType, scopeTracker.SBLOCK, 0) #This shouldn't set the block yet.
                                 #Reset block after this line.
                                 reset = True
@@ -788,7 +788,7 @@ class logChunk:
                                 #Then we ignore further block single line keywords....
                                 if(self.config_info.DEBUG):
                                     print("Back tracking!!!")
-                                    print("BT Function Name:" + shortFunctionName)
+                                    print(("BT Function Name:" + shortFunctionName))
 
                                 return (foundBlock, blockKeywordLine, blockKeywordType, shortFunctionName, keywordDictionary, sT, True)
 
@@ -812,7 +812,7 @@ class logChunk:
 
                         if(sT.getBlockContext(lineType) != [] and lineType!=OTHER):
                             if(self.config_info.DEBUG):
-                                print("Current block context: " + str(sT.getBlockContext(lineType)))
+                                print(("Current block context: " + str(sT.getBlockContext(lineType))))
                             keywordDictionary = self.parseLineForKeywords(line, lineType, blockKeyWordList, keywordDictionary, sT.getBlockContext(lineType))
 
 
@@ -820,7 +820,7 @@ class logChunk:
                         if(not sT.changeScopeFirst()):
                             sT.decreaseScope(line, lineType)
                         if(self.config_info.DEBUG):
-                            print("Removed!!!!" + str(sT.getBlockContext(lineType)))
+                            print(("Removed!!!!" + str(sT.getBlockContext(lineType))))
                 else: #A SIMUL change!!!
                     if(sT.changeScopeFirst()): #Shouldn't be possible in bracket based languages.
                         assert(sT.isScopeIncrease(line, lineType) == scopeTracker.S_SIMUL or sT.isScopeDecrease(line, lineType) == scopeTracker.S_SIMUL)
@@ -831,7 +831,7 @@ class logChunk:
                         if(foundBlock != None): #If we have an existing keyword match from before
                             if(blockKeywordLine == lineNum - 1):
                                 if(self.config_info.DEBUG):
-                                    print("Block start found (0): " + foundBlock)
+                                    print(("Block start found (0): " + foundBlock))
                                 sT.increaseScope(foundBlock, line, blockKeywordType, scopeTracker.SBLOCK, 1, True)
                             else: #Ignore scope increases too far away from the block keyword
                                 sT.increaseScope(line, line, blockKeywordType, scopeTracker.GENERIC, True)
@@ -843,7 +843,7 @@ class logChunk:
                             foundBlock=self.getBlockPattern(line,blockKeyWordList)
                             if(foundBlock!=None):
                                 if(self.config_info.DEBUG):
-                                    print("Block start found (SIMUL): " + foundBlock)
+                                    print(("Block start found (SIMUL): " + foundBlock))
                                 sT.increaseScope(foundBlock, line, lineType, scopeTracker.SBLOCK, 0, True) #This shouldn't set the block yet.
                                 blockKeywordType = lineType
                                 blockKeywordLine = lineNum
@@ -865,7 +865,7 @@ class logChunk:
 
                         if(sT.getBlockContext(lineType) != [] and lineType!=OTHER):
                             if(self.config_info.DEBUG):
-                                print("Current block context: " + str(sT.getBlockContext(lineType)))
+                                print(("Current block context: " + str(sT.getBlockContext(lineType))))
                             keywordDictionary = self.parseLineForKeywords(line, lineType, blockKeyWordList, keywordDictionary, sT.getBlockContext(lineType))
 
         else: # Still want to check for a block context opening
@@ -890,7 +890,7 @@ class logChunk:
                 if(sT.getBlockContext(lineType) != [] or foundBlock != None):
                     bC = sT.getBlockContext(lineType)
                     if(self.config_info.DEBUG):
-                        print("Current block context: " + str(bC))
+                        print(("Current block context: " + str(bC)))
                     if(foundBlock != None):
                         if(self.config_info.DEBUG):
                             print("No scope increase yet for block keyword. Adding to the list.")
@@ -921,8 +921,8 @@ class logChunk:
         #New keyword list for both single and block keywords.  This is a list of triples.
         if(self.keyWordList == []):
             self.keyWordList = self.readKeywords(keyWordList)
-        singleKeyWordList = filter(lambda w : w[2] == SINGLE, self.keyWordList)
-        blockKeyWordList = filter(lambda w: w[2] == BLOCK, self.keyWordList)
+        singleKeyWordList = [w for w in self.keyWordList if w[2] == SINGLE]
+        blockKeyWordList = [w for w in self.keyWordList if w[2] == BLOCK]
 
         foundBlock = None #This marks a line that matches a block keyword
         blockKeywordLine = -1 #If the keyword line doesn't have a scope increase, we need to record its line.
@@ -973,9 +973,9 @@ class logChunk:
 
             if(self.config_info.DEBUG):
                 try:
-                    print("The real line: " + line)
+                    print(("The real line: " + line))
                 except:
-                    print("The real line: " + unicode(line, 'utf-8', errors='ignore'))
+                    print(("The real line: " + str(line, 'utf-8', errors='ignore')))
 
 
             (lineType, line)= self.markLine(line)
@@ -1006,7 +1006,7 @@ class logChunk:
             try:
                 priorStatus = self.sT.getContinuationFlag()
                 if(self.config_info.DEBUG):
-                    print("Prior Status: " + str(priorStatus))
+                    print(("Prior Status: " + str(priorStatus)))
                 newStatus = self.langSwitch.isContinuationLine(line, priorStatus)
                 if(self.config_info.DEBUG):
                     if(newStatus == languageSwitcher.CONTINUATION):
@@ -1028,9 +1028,9 @@ class logChunk:
             if(phase == LOOKFORNAME):
                 if(self.config_info.DEBUG):
                     try:
-                        print("Current Name Search: " + functionName)
+                        print(("Current Name Search: " + functionName))
                     except:
-                        print("Current Name Search: " + unicode(functionName, 'utf-8', errors='ignore'))
+                        print(("Current Name Search: " + str(functionName, 'utf-8', errors='ignore')))
 
                 #What if we've hit a function definition?
                 if(self.langSwitch.checkForFunctionReset(functionName)):
@@ -1038,9 +1038,9 @@ class logChunk:
 
                 if(self.config_info.DEBUG):
                     try:
-                        print("Line: \"" + line + "\"")
+                        print(("Line: \"" + line + "\""))
                     except:
-                        print("Line: \"" + unicode(line, 'utf-8', errors='ignore') + "\"")
+                        print(("Line: \"" + str(line, 'utf-8', errors='ignore') + "\""))
 
                 #if(self.sT.isFunctionalScopeChange(line,lineType)):
                 try:
@@ -1155,7 +1155,7 @@ class logChunk:
             self.functions.append(funcToAdd)
 
         #Remove any unmodified functions
-        self.functions = filter(lambda(x) : x.total_add != 0 or x.total_del != 0 , self.functions)
+        self.functions = [x for x in self.functions if x.total_add != 0 or x.total_del != 0]
 
         #Clear out the scope.
         self.sT.clearScope()

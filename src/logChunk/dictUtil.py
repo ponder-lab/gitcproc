@@ -13,7 +13,7 @@ def incrementDict(dictKey, dictionary, inc=1):
 #Given a dictionary of counts return true if at least one is non zero
 #and false otherwise
 def nonZeroCount(dictionary):
-	for k,v in dictionary.iteritems():
+	for k,v in dictionary.items():
 		assert(v >= 0)
 		if(v > 0):
 			return True
