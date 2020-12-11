@@ -38,7 +38,7 @@ def toStr(text):
         temp_text = temp_text.strip()
         return "\'" + str(temp_text) + "\'"
     except:
-        print type(text)
+        print(type(text))
         return "\'NA\'"
 
 class Patch:
