@@ -1,0 +1,4 @@
+nltk
+gitpython
+pyyaml
+psycopg2
