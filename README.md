@@ -42,7 +42,7 @@ SELECT * FROM public.method_change_detail limit 5;
 
 GitCProc runs on python 2.7 and requires the following libraries:
 
-- `psycopg2`
+- `psycopg2-binary`
 - `nltk`
 - `PyYAML`
 - `GitPython`
