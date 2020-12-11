@@ -33,7 +33,7 @@ def timeout(signum, frame):
 
 def toStr(text):
     try:
-        text1 = str(text).encode('iso-8859-1')
+        text1 = str(text)
         temp_text = text1.replace("\'","\"")
         temp_text = temp_text.strip()
         return "\'" + str(temp_text) + "\'"
