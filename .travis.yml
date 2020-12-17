@@ -1,7 +1,7 @@
 language: python
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
-  - "2.7"
+  - "3.8.6"
 
 before_script: cd src/logChunk
 
@@ -29,8 +29,8 @@ install:
   - easy_install nltk==3.0
   - easy_install gitPython
   #Set up nltk
-  - python -m nltk.downloader stopwords
-  - python -m nltk.downloader wordnet
+  - python3 -m nltk.downloader stopwords
+  - python3 -m nltk.downloader wordnet
 
   # Replace dep1 dep2 ... with your dependencies
   # - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION dep1 dep2 ...
@@ -39,15 +39,14 @@ install:
 
 script:
   # Your test script goes here
-  - python ./scopeTrackerTest.py
-  - python ./logChunkTestC.py
-  - python ./logChunkTestJAVA.py
-  - python ./logChunkTestPython.py
-  - python ./ghLogDbTest.py
-  - python ./ghLogDbTestPython.py
-  #- python ./gitcprocTest.py
+  - python3 ./scopeTrackerTest.py
+  - python3 ./logChunkTestC.py
+  - python3 ./logChunkTestJAVA.py
+  - python3 ./logChunkTestPython.py
+  - python3 ./ghLogDbTest.py
+  - python3 ./ghLogDbTestPython.py
+  #- python3 ./gitcprocTest.py
 notifications:
   email:
     - yvsuchak@ucdavis.edu
     - caseycasal@gmail.com
-    
