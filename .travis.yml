@@ -24,10 +24,10 @@ install:
   # weird travis-ci python paths
   - export PYTHONPATH=$PYTHONPATH:./src/util/
   - export PYTHONPATH=$PYTHONPATH:./src/logChunk/
-  - easy_install psycopg2
-  - easy_install PyYAML
-  - easy_install nltk==3.0
-  - easy_install gitPython
+  - pip3 install psycopg2
+  - pip3 install PyYAML
+  - pip3 install nltk==3.0
+  - pip3 install gitPython
   #Set up nltk
   - python3 -m nltk.downloader stopwords
   - python3 -m nltk.downloader wordnet
