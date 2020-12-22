@@ -1,5 +1,12 @@
 #!/bin/bash
 set -ex
-psql -h localhost -U khatchad -d func -c "drop table if exists change_summary"
-psql -h localhost -U khatchad -d func -c "drop table if exists method_change_detail"
-rm -rf ../../evaluation/repos/FuncProjects
+
+HOST="database-research.cwfckxyjfuva.us-east-1.rds.amazonaws.com"
+USER="khatchad"
+DB="func"
+REPO_DIR="FuncProjects"
+
+psql -h "$HOST" -U "$USER" -d "$DB" -c "drop table if exists change_summary"
+psql -h "$HOST" -U "$USER" -d "$DB" -c "drop table if exists method_change_detail"
+
+rm -rf "../../evaluation/repos/$REPO_DIR"
