@@ -26,7 +26,7 @@ install:
   - export PYTHONPATH=$PYTHONPATH:./src/logChunk/
   - pip3 install psycopg2
   - pip3 install PyYAML
-  - pip3 install nltk==3.0
+  - pip3 install nltk==3.4
   - pip3 install gitPython
   #Set up nltk
   - python3 -m nltk.downloader stopwords
